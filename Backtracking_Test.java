@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.util.Scanner;
 
 		class ColEdge
 			{
@@ -132,22 +133,48 @@ public class Backtracking_Test
 				adj_matrix[e[i].v][e[i].u] +=1;
 			}
 
-			// This is the number of colours we're testing with. 
-			// It's a fixed value, meaning that each time we would like to test a graph for less or more colours, this needs to be changed manually.
-			int number_colours = 7;
+			// Check it's a complete graph. If yes - print the amount of vertices (which is equal to the chromatic number) and stop the program.
+			if ((n*(n-1))/2 == m){
+				System.out.println("This a complete graph and the chromatic number is equal to the number of vertices. This graph has " + n + " vertices.");
+			}
 
-		    graphColouring(adj_matrix, number_colours);
+			// User input for the amount of colours we're testing with.
+			else{ 
+				Scanner in = new Scanner (System.in);
+				System.out.println("Please input the amount of colours that you'd like to test with:");
+				int number_colours = in.nextInt();
+				System.out.println("Loading...");
+
+		    	graphColouring(adj_matrix, number_colours);
+			}
 		}
 
-		// CHECK ADJACENCY AND IF THE COLOUR IS SAFE
-		public static boolean checkAdjVert (int v, int adj_matrix[][], int colour_table[][], int c)
+		// THIS METHOD WOULD RETURN FALSE IF THE COLOURS ARE NOT ENOUGH TO COLOUR THE GRAPH.
+		// OTHERWISE IT WOULD PRINT THE SOLUTION (AT LEAST ONE OF THE POSSIBLE SOLUTIONS).
+		public static boolean graphColouring(int adj_matrix[][], int number_colours)
 		{
-		    for (int i = 1; i <= adj_matrix.length-1; i++){
-		        if (adj_matrix[v][i] == 1 && c == colour_table[1][i-1])
-		            return false;
+			// Create a colour matrix where we assign colour values to each vertex. Initial values set to 0.
+			int [][] colour_table = new int [2][adj_matrix.length-1];
+			int f = 0;
+			for (int j = 0; j < colour_table[0].length; j++){
+				f+=1;
+				colour_table[0][j] += f;
+			}
+			// Call vertRecursion for the first vertex.
+		    if (!vertRecursion(adj_matrix, number_colours, colour_table, 1)){
+		        System.out.println(number_colours + " colours are not enough. More colours needed!");
+		        return false;
 		    }
+		    // If assigning the colours was successful, print solution.
+		    else{
+		    	System.out.println("Coloring successful using " + number_colours + " colours in the following way (starting from vertex 1): ");
+				for (int j = 0; j < colour_table[1].length; j++){
+					System.out.print(colour_table[1][j] + " ");
+				}
+				System.out.println();
+			}
 		    return true;
-		}
+		 }
 
 		// RECURSIVE METHOD TO HELP SOLVE THE M-COLOURING PROBLEM. IF SOLUTION IS NOT POSSIBLE, METHOD RETURNS FALSE.
 		public static boolean vertRecursion (int adj_matrix[][], int number_colours, int colour_table[][], int v)
@@ -174,34 +201,13 @@ public class Backtracking_Test
 		    return false;
 		}
 
-		// THIS METHOD WOULD RETURN FALSE IF THE COLOURS ARE NOT ENOUGH TO COLOUR THE GRAPH.
-		// OTHERWISE IT WOULD PRINT THE SOLUTION (AT LEAST ONE OF THE POSSIBLE SOLUTIONS).
-		public static boolean graphColouring(int adj_matrix[][], int number_colours)
+		// CHECK ADJACENCY AND IF THE COLOUR IS SAFE
+		public static boolean checkAdjVert (int v, int adj_matrix[][], int colour_table[][], int c)
 		{
-			// Create a colour matrix where we assign colour values to each vertex. Initial values set to 0.
-			int [][] colour_table = new int [2][adj_matrix.length-1];
-			int f = 0;
-			for (int j = 0; j < colour_table[0].length; j++){
-				f+=1;
-				colour_table[0][j] += f;
-			}
-
-		    // Call vertRecursion for the first vertex.
-		    if (!vertRecursion(adj_matrix, number_colours, colour_table, 1)){
-		        System.out.println(number_colours + " colours are not enough. More colours needed!");
-		        return false;
-		    }
-
-		    // If assigning the colours was successful, print solution.
-		    else{
-		    	System.out.println("Coloring successful using " + number_colours + " colours in the following way (first row is the number of the vertex, second row is the colour it has):");
-				for (int i = 0; i < colour_table.length; i++){
-					for (int j = 0; j < colour_table[i].length; j++){
-						System.out.print(colour_table[i][j] + " ");
-					}
-					System.out.println();
-				}
+		    for (int i = 1; i <= adj_matrix.length-1; i++){
+		        if (adj_matrix[v][i] == 1 && c == colour_table[1][i-1])
+		            return false;
 		    }
 		    return true;
-		 }
+		}
 }
