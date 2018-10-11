@@ -120,14 +120,16 @@ public class Greedy
 			available[i] = true;
 		}
 
-		int[][] adj_Matrix = new int[n +1][n+1];
-		for (int i = 0; i < e.length; i++){
-			adj_Matrix[e[i].u][e[i].v] +=1;
-			adj_Matrix[e[i].v][e[i].u] +=1;
+		int[][] adj_Matrix = new int[n + 1][n + 1];
+		for (int i = 0; i < e.length; i++) {
+			adj_Matrix[e[i].u][e[i].v] += 1;
+			adj_Matrix[e[i].v][e[i].u] += 1;
 		}
 
 		/**
-		 * Ignore this part for now this is the optimization part.
+		 * Ignore this part for now.  This is an attempt at optimization and lower-bound algorithm.
+		 * The idea is that if we choose the vertic with least amount of edges connecting to it or if that does not
+		 * work then we try a vertice with the most amount of edges connected to it.
 		 */
 //		Sum the row of the adjacency matrix in order to find the least-edge vertix.
 		/*int[] sumRowAdj = new int[n];
@@ -144,9 +146,7 @@ public class Greedy
 				minIncident = sumRowAdj[k];
 			}
 		}*/
-
-		for (int y = 1; y < n; y++)
-		{
+		for (int y = 1; y < n; y++) {
 			//counter starts here.
 			int cr;
 			for (cr = 0; cr < n - 1; cr++) {
@@ -154,26 +154,24 @@ public class Greedy
 					break;
 			}
 
-			/*
-			This is where most of the error is.,  I plan to implement the minIncident here, but I want to fix this first.
-			 */
+
 			adj_Matrix[y][cr] = 1;
-			for(int i =1; i < adj_Matrix.length; i++) {
-				if (adj_Matrix[y][i] == 1){
+			for (int i = 1; i < adj_Matrix.length; i++) {
+				if (adj_Matrix[y][i] == 1) {
 					color[y]++;
-//					count++;
 				}
 			}
 
 			//Count goes here.
-			count = Math.max(color[y-1], color[y]);
+			count = Math.max(color[y - 1], color[y]);
 
 			//Set all colors to available again
 			for (int j = 0; j < n; j++) {
 				available[j] = true;
 			}
-			cr++;
+
 		}
-		System.out.println("X(G)=" + count + "  with the Greedy Algorithm");
+		System.out.println("X(G)=" + count + ",  with the Greedy Algorithm");
 	}
+
 }
