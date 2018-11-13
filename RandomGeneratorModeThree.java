@@ -28,6 +28,7 @@ public class RandomGeneratorModeThree {
                                if (x != y) {
                                    count++;
                                    adjArray[x][y] = 1;
+				   adjArray[y][x] = 1;
                                }
                            }
                        }
