@@ -77,23 +77,22 @@ public class Random_Graphs {
     public static void display(String title, String message, int [][] adj){
         Stage window = new Stage();
 
-        window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(250);
 
         int [][] adj_matrix = adj;
 
         Group gr1 = new Group();
-        scene1 = new Scene(gr1,1024, 800);
+        scene1 = new Scene(gr1, 1024, 800);
 
         Label label = new Label();
         label.setText(message);
         gr1.getChildren().add(label);
 
         // Reading adjacency matrix for random generated values and creating the graph
-        final ColEdge cir[] = new ColEdge[adj_matrix.length];
+        final Circles cir[] = new Circles[adj_matrix.length];
         for (int d=0; d<adj_matrix.length; d++) {
-            cir[d] = new ColEdge();
+            cir[d] = new Circles();
             cir[d].Circle1 = createCircle((int)(Math.random()*800), (int)(Math.random()*600), 20, Color.GREY); // Generating circles in random places
             gr1.getChildren().add(cir[d].Circle1);
         }
@@ -109,23 +108,34 @@ public class Random_Graphs {
             }
         }
 
-        EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>(){
-            @Override
-            public void handle(javafx.scene.input.MouseEvent e) {
-                cir[0].Circle1.setFill(Color.RED);
-            }
-        };
+        //Adding Event Filter to check which circle was clicked
+        ColorBox cbox = new ColorBox();
+        for (int i=0; i<cir.length; i++){
+            final int temp_i = i;
+            cir[i].Circle1.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    cir[temp_i].Circle1.setFill(cbox.getValue());
+                }
+            });
+        }
 
-        cir[0].Circle1.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
+//        // Adding Handler to colour circles
+//        EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>(){
+//            @Override
+//            public void handle(MouseEvent e) {
+//                cir[0].Circle1.setFill(Color.RED);
+//            }
+//        };
+//        cir[0].Circle1.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
 
-        // Adding ColorBox
 
-        ColorBox.display();
+        // Adding The ColorBox
+        cbox.display();
 
         window.setScene(scene1);
         window.setTitle("Graph Coloring Game");
         window.show();
 
     }
-
 }

@@ -1,10 +1,14 @@
 package sample;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
+
+import java.awt.event.KeyEvent;
 
 public class ConfirmBox {
 
@@ -37,6 +41,10 @@ public class ConfirmBox {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, yesButton, noButton);
         layout.setAlignment(Pos.CENTER);
+
+        layout.setOnKeyPressed((event) -> { if(event.getCode() == KeyCode.ENTER) {
+            answer = true;
+            window.close(); } });
 
         Scene scene = new Scene(layout);
         window.setScene(scene);

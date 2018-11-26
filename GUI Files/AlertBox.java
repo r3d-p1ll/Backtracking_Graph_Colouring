@@ -43,6 +43,8 @@ public class AlertBox {
         closeButton.setOnAction(e -> {
             if(isInt(num_vert, num_edges)){
                 RandomGeneratorModeThree.random_gen(Integer.parseInt(num_vert.getText()), Integer.parseInt(num_edges.getText()));
+                e.consume();
+                window.close();
             }
         });
         GridPane.setConstraints(closeButton, 4, 3);
