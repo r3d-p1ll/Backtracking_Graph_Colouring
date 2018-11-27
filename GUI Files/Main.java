@@ -47,7 +47,7 @@ public class Main extends Application {
         button1.setOnAction(e -> randomGraph());
 
         button2 = new Button("Time Graphs");
-        button2.setOnAction(e -> randomGraph());
+        button2.setOnAction(e -> timeGraph());
 
         button3 = new Button("Fixed Graphs");
         button3.setOnAction(e -> fixedGraph());
@@ -76,6 +76,11 @@ public class Main extends Application {
         AlertBox.display("Set parameters", "Please set the number of vertices and edges:");
 //        Random_Graphs.display("Random Graph", "Good luck!");
     }
+    
+    private void timeGraph() {
+        Timed_Graphs.display("Timed Mode", "Think fast!");
+    }
+    
     private void fixedGraph(){
         Fixed_graphs.display("Random Graph", "Good luck!");
     }
