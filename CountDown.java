@@ -1,60 +1,22 @@
-package sample;//import javafx.animation.*;
-//import javafx.application.*;
-//import javafx.event.*;
-//import javafx.stage.Stage;
-//import javafx.util.Duration;
-//import javafx.scene.*;
-//import javafx.scene.control.Label;
-//import javafx.scene.layout.HBox;
-//import javafx.scene.paint.Color;
-//import javafx.scene.text.Font;
-//
-// public class CountDown {
-//    Timer timer;
-//
-//    public CountDown() {
-//        timer = new Timer();
-//        timer.schedule(new DisplayCountDown(), 0, 1000);
-//    }
-//
-//    class DisplayCountDown extends TimerTask {
-//        int second = 60;
-//    }
-//}
-//public class CountDown {
-//    public static void main(final String args[]) {
-//        if (args.length != 1) {
-//            System.err.println("Usage: java Countdown <time in secs>");
-//            System.exit(1);
-//        }
-//        final Timer timer = new Timer();
-//        timer.scheduleAtFixedRate(new TimerTask() {
-//            int i = 60;
-//
-//            public void run() {
-//                System.out.println(i--);
-//                if (i < 0)
-//                    timer.cancel();
-//            }
-//        }, 0, 1000);
-//    }
-//}
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
+        package sample;
+
+
+        import javafx.animation.KeyFrame;
+        import javafx.animation.Timeline;
+        import javafx.application.Application;
+        import javafx.event.ActionEvent;
+        import javafx.event.EventHandler;
+        import javafx.geometry.Insets;
+        import javafx.scene.layout.GridPane;
+        import javafx.stage.Stage;
+        import javafx.util.Duration;
+        import javafx.scene.Group;
+        import javafx.scene.Scene;
+        import javafx.scene.control.Label;
+        import javafx.scene.layout.HBox;
+        import javafx.scene.paint.Color;
+        import javafx.scene.text.Font;
 
 
 public class CountDown extends Application {
@@ -95,15 +57,12 @@ public class CountDown extends Application {
         grid.setPadding(new Insets(10, 10, 10, 10));
         grid.setVgap(8); //Vgap= vertical gap
         grid.setHgap(10); //Hgap = horizontal gap
-
         //time
         Label timeUsed = new Label("Time: " + starttime);
         GridPane.setConstraints(timeUsed, 0,0);
-
         //chromatic number used
         Label chromaUsed = new Label("Chromatic: "); //Add count of X(G) given by the user.
         GridPane.setConstraints(chromaUsed, 1,0);
-
         grid.getChildren().addAll(timeUsed,chromaUsed);
         Scene over = new Scene(grid, 300, 200);
         gameOver.setScene(over);

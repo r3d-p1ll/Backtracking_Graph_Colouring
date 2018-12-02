@@ -1,26 +1,31 @@
-package sample;
 
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+
+        package sample;
+
+        import javafx.event.EventHandler;
+        import javafx.fxml.FXMLLoader;
+        import javafx.scene.Cursor;
+        import javafx.scene.Group;
+        import javafx.scene.Parent;
+        import javafx.scene.Scene;
+        import javafx.scene.control.Button;
+        import javafx.scene.control.ColorPicker;
+        import javafx.scene.control.Label;
+        import javafx.scene.input.MouseEvent;
+        import javafx.scene.paint.Color;
+        import javafx.scene.shape.Circle;
+        import javafx.scene.shape.Line;
+        import javafx.scene.shape.StrokeLineCap;
+        import javafx.scene.text.Font;
+        import javafx.scene.text.Text;
+        import javafx.stage.Modality;
+        import javafx.stage.Stage;
 
 public class Random_Graphs {
 
     static Scene scene1;
     static double orgSceneX, orgSceneY;
+
 
     private static EventHandler<MouseEvent> mousePressedEventHandler = (t) ->
     {
@@ -75,20 +80,28 @@ public class Random_Graphs {
         line.setStrokeWidth(2);
         line.setStrokeLineCap(StrokeLineCap.BUTT);
         line.getStrokeDashArray().setAll(1.0, 4.0);
+        line.toBack();
 
         return line;
     }
 
-    public static void display(String title, String message, int [][] adj){
+    public static void display(String title, String message, int [][] adj, int array[]) {
         Stage window = new Stage();
 
         window.setTitle(title);
         window.setMinWidth(250);
 
-        int [][] adj_matrix = adj;
+        int[][] adj_matrix = adj;
 
         Group gr1 = new Group();
         scene1 = new Scene(gr1, 1024, 800);
+
+        Button buttonhint = new Button("HINTS");
+        gr1.getChildren().add(buttonhint);
+        buttonhint.setOnAction(e -> Hinter());
+
+
+
 
         Label label = new Label();
         label.setText(message);
@@ -96,26 +109,37 @@ public class Random_Graphs {
 
         // Reading adjacency matrix for random generated values and creating the graph
         final Circles cir[] = new Circles[adj_matrix.length];
-        for (int d=0; d<adj_matrix.length; d++) {
-            cir[d] = new Circles();
-            cir[d].Circle1 = createCircle((int)(Math.random()*800), (int)(Math.random()*600), 20, Color.GREY); // Generating circles in random places
-            gr1.getChildren().add(cir[d].Circle1);
+        for (int d = 0; d < adj_matrix.length; d++ ) {
+
+                    //while(i<= array.length){
+                    cir[d] = new Circles();
+                    double x = (Math.random() * 800);
+                    double y = (Math.random() * 600);
+                    int z = array[d];
+                    cir[d].Circle1 = createCircle((int) x, (int) y, 20, Color.GREY); // Generating circles in random places
+                    Text number = new Text(x, y, String.valueOf(z));
+                    gr1.getChildren().addAll(cir[d].Circle1, number);
+                    cir[d].Circle1.toFront();
+                    number.toFront();
+
+
+
         }
 
-        for (int i=0; i<adj_matrix.length; i++){
-            for (int j=0; j<adj_matrix[i].length; j++){
-                if (adj_matrix[i][j] == 1){
+        for (int i = 0; i < adj_matrix.length; i++) {
+            for (int j = 0; j < adj_matrix[i].length; j++) {
+                if (adj_matrix[i][j] == 1) {
                     Line line1 = connect(cir[i].Circle1, cir[j].Circle1);
                     gr1.getChildren().add(line1);
-                    cir[i].Circle1.toFront();
-                    cir[j].Circle1.toFront();
+                    line1.toBack();
+
                 }
             }
         }
 
         //Adding Event Filter to check which circle was clicked
         ColorBox cbox = new ColorBox();
-        for (int i=0; i<cir.length; i++){
+        for (int i = 0; i < cir.length; i++) {
             final int temp_i = i;
             cir[i].Circle1.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                 @Override
@@ -125,15 +149,6 @@ public class Random_Graphs {
             });
         }
 
-//        // Adding Handler to colour circles
-//        EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>(){
-//            @Override
-//            public void handle(MouseEvent e) {
-//                cir[0].Circle1.setFill(Color.RED);
-//            }
-//        };
-//        cir[0].Circle1.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
-
 
         // Adding The ColorBox
         cbox.display();
@@ -141,6 +156,13 @@ public class Random_Graphs {
         window.setScene(scene1);
         window.setTitle("Graph Coloring Game");
         window.show();
-
     }
+
+        private static void Hinter() {
+            Hint.display("Set parameters", "Please set the number of vertices and edges:");
+            //        Hint.display("Random Graph", "Good luck!");
+        }
+
+
+
 }

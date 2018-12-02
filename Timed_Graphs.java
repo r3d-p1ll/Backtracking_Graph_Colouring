@@ -1,30 +1,31 @@
-package sample;
 
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
-import javafx.scene.layout.GridPane;
-import javafx.util.Duration;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+        package sample;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+        import javafx.event.EventHandler;
+        import javafx.fxml.FXMLLoader;
+        import javafx.scene.Cursor;
+        import javafx.scene.Group;
+        import javafx.scene.Parent;
+        import javafx.scene.Scene;
+        import javafx.scene.control.Button;
+        import javafx.scene.input.MouseEvent;
+        import javafx.scene.paint.Color;
+        import javafx.scene.shape.Circle;
+        import javafx.scene.shape.Line;
+        import javafx.scene.shape.StrokeLineCap;
+        import javafx.stage.Modality;
+        import javafx.stage.Stage;
+        import javafx.animation.KeyFrame;
+        import javafx.animation.Timeline;
+        import javafx.event.ActionEvent;
+        import javafx.geometry.Insets;
+        import javafx.scene.layout.GridPane;
+        import javafx.util.Duration;
+        import javafx.scene.control.Label;
+        import javafx.scene.layout.HBox;
+
+        import java.util.ArrayList;
+        import java.util.Iterator;
 
 public class Timed_Graphs {
 

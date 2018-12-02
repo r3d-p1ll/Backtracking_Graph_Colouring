@@ -1,9 +1,13 @@
-package sample;
 
-import java.util.Scanner;
-import java.util.Random;
+
+
+        package sample;
+
+        import java.util.Scanner;
+        import java.util.Random;
 
 public class RandomGeneratorModeThree {
+    static int [] arrayRandom;
     public static void random_gen(int vert, int edge){
 
         Random rand = new Random();
@@ -51,7 +55,7 @@ public class RandomGeneratorModeThree {
                             }
                             System.out.println();
                         }
-                        Random_Graphs.display("Graph Coloring Game", "", adjArray);
+                        Random_Graphs.display("Graph Coloring Game", "", adjArray, arrayRandom);
                     }
                 }
             }
@@ -90,8 +94,8 @@ public class RandomGeneratorModeThree {
     public static void randomOrder(int a){
 
         Random rand = new Random();
+        arrayRandom = new int [a];
 
-        int arrayRandom [] = new int [a];
         int count = 1;
 
         while(count <= a){
@@ -107,10 +111,9 @@ public class RandomGeneratorModeThree {
                 }
             }
         }
-        for(int j = 0; j< arrayRandom.length; j++){
-            System.out.print(arrayRandom[j]);
-        }
-        System.out.println();
+    }
+    public static int [] getRandom(){
+        return arrayRandom;
     }
 }
 

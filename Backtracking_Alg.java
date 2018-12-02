@@ -224,4 +224,3 @@ public class Backtracking_Alg
         return true;
     }
 }
-
