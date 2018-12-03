@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class RandomGeneratorModeThree {
+    static int [] arrayRandom;
     public static void random_gen(int vert, int edge){
 
         Random rand = new Random();
@@ -51,7 +52,8 @@ public class RandomGeneratorModeThree {
                             }
                             System.out.println();
                         }
-                        Random_Graphs.display("Graph Coloring Game", "", adjArray);
+                        Random_Graphs.display("Graph Coloring Game", "", adjArray, arrayRandom);
+                        Backtracking_Alg.display(adjArray, v, e);
                     }
                 }
             }
@@ -91,7 +93,7 @@ public class RandomGeneratorModeThree {
 
         Random rand = new Random();
 
-        int arrayRandom [] = new int [a];
+        arrayRandom = new int [a];
         int count = 1;
 
         while(count <= a){
@@ -107,10 +109,6 @@ public class RandomGeneratorModeThree {
                 }
             }
         }
-        for(int j = 0; j< arrayRandom.length; j++){
-            System.out.print(arrayRandom[j]);
-        }
-        System.out.println();
     }
 }
 

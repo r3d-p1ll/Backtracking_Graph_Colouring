@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
 import javafx.stage.*;
 import javafx.scene.*;
@@ -47,6 +48,9 @@ public class AlertBox {
                 window.close();
             }
         });
+
+        layout.setOnKeyPressed((event) -> { if(event.getCode() == KeyCode.ENTER) closeButton.fire(); });
+
         GridPane.setConstraints(closeButton, 4, 3);
 
         layout.getChildren().addAll(label, closeButton, num_vert, num_edges);

@@ -2,25 +2,31 @@ package sample;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Random_Graphs {
 
     static Scene scene1;
     static double orgSceneX, orgSceneY;
+    static Paint[] num_of_colors;
+    static int width = 1200;
+    static int height = 800;
 
     private static EventHandler<MouseEvent> mousePressedEventHandler = (t) ->
     {
@@ -45,10 +51,15 @@ public class Random_Graphs {
         orgSceneY = t.getSceneY();
     };
 
-    private static Circle createCircle(double x, double y, double r, Color color)
+    private static Circle createCircle(double x, double y, double r, Color color, int adj_mat_length)
     {
         Circle circle = new Circle(x, y, r, color);
+        for (int i=0; i<200; i++){
+            Force_Directed_Alg.display(circle, adj_mat_length, x, y);
+        }
+        circle = new Circle(Force_Directed_Alg.getX(), Force_Directed_Alg.getY(), r, color);
 
+        circle.setStroke(Color.BLACK);
         circle.setCursor(Cursor.CROSSHAIR);
 
         circle.setOnMousePressed(mousePressedEventHandler);
@@ -67,14 +78,26 @@ public class Random_Graphs {
         line.endXProperty().bind(c2.centerXProperty());
         line.endYProperty().bind(c2.centerYProperty());
 
-        line.setStrokeWidth(1);
+        line.setStrokeWidth(2);
         line.setStrokeLineCap(StrokeLineCap.BUTT);
         line.getStrokeDashArray().setAll(1.0, 4.0);
 
         return line;
     }
 
-    public static void display(String title, String message, int [][] adj){
+    public static int getNumColors() {
+        Set<Paint> newset = new HashSet<Paint>();
+        for (int i=0; i < num_of_colors.length; i++) {
+            newset.add(num_of_colors[i]);
+        }
+        return newset.size()-1;
+    }
+
+    public static void Hinter(){
+        Hint.display("Hint", "Need help?");
+    }
+
+    public static void display(String title, String message, int [][] adj, int [] array_random){
         Stage window = new Stage();
 
         window.setTitle(title);
@@ -83,7 +106,12 @@ public class Random_Graphs {
         int [][] adj_matrix = adj;
 
         Group gr1 = new Group();
-        scene1 = new Scene(gr1, 1024, 800);
+        scene1 = new Scene(gr1, width, height);
+
+        //Adding HINTS button
+        Button buttonhint = new Button("HINTS");
+        gr1.getChildren().add(buttonhint);
+        buttonhint.setOnAction(e ->  Hinter());
 
         Label label = new Label();
         label.setText(message);
@@ -92,9 +120,15 @@ public class Random_Graphs {
         // Reading adjacency matrix for random generated values and creating the graph
         final Circles cir[] = new Circles[adj_matrix.length];
         for (int d=0; d<adj_matrix.length; d++) {
-            cir[d] = new Circles();
-            cir[d].Circle1 = createCircle((int)(Math.random()*800), (int)(Math.random()*600), 20, Color.GREY); // Generating circles in random places
-            gr1.getChildren().add(cir[d].Circle1);
+            int random_width = (int)(Math.random()*(width-30));
+            int random_height = (int)(Math.random()*(height-30));
+            int z = array_random[d];
+            cir[d] = new Circles(random_width, random_height);
+            cir[d].Circle1 = createCircle(random_width, random_height, 15, Color.WHITE, adj_matrix.length); // Generating circles in random places
+            Text number = new Text(random_width+20, random_height+20, String.valueOf(z));
+            gr1.getChildren().addAll(cir[d].Circle1, number);
+            cir[d].Circle1.toFront();
+            number.toFront();
         }
 
         for (int i=0; i<adj_matrix.length; i++){
@@ -102,33 +136,30 @@ public class Random_Graphs {
                 if (adj_matrix[i][j] == 1){
                     Line line1 = connect(cir[i].Circle1, cir[j].Circle1);
                     gr1.getChildren().add(line1);
-                    cir[i].Circle1.toFront();
-                    cir[j].Circle1.toFront();
+                    line1.toBack();
                 }
             }
         }
 
         //Adding Event Filter to check which circle was clicked
         ColorBox cbox = new ColorBox();
+        num_of_colors = new Paint[cir.length]; //An array to hold the used colors.
+
         for (int i=0; i<cir.length; i++){
             final int temp_i = i;
             cir[i].Circle1.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    cir[temp_i].Circle1.setFill(cbox.getValue());
+                    if (cir[temp_i].Circle1.getFill() == Color.WHITE) {
+                        cir[temp_i].Circle1.setFill(cbox.getValue());
+                        num_of_colors[temp_i] = cir[temp_i].Circle1.getFill();
+                    }
+                    else{
+                        System.out.println("ALREADY COLORED");
+                    }
                 }
             });
         }
-
-//        // Adding Handler to colour circles
-//        EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>(){
-//            @Override
-//            public void handle(MouseEvent e) {
-//                cir[0].Circle1.setFill(Color.RED);
-//            }
-//        };
-//        cir[0].Circle1.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
-
 
         // Adding The ColorBox
         cbox.display();
@@ -136,6 +167,5 @@ public class Random_Graphs {
         window.setScene(scene1);
         window.setTitle("Graph Coloring Game");
         window.show();
-
     }
 }
