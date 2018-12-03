@@ -115,6 +115,9 @@ public class Timed_Graphs {
     private static Circle createCircle(double x, double y, double r, Color color)
     {
         Circle circle = new Circle(x, y, r, color);
+        circle.setStrokeWidth(4);
+        circle.setStroke(Color.BLACK);
+        circle.setFill(Color.WHITE);
 
         circle.setCursor(Cursor.CROSSHAIR);
 
@@ -135,7 +138,7 @@ public class Timed_Graphs {
         line.endXProperty().bind(c2.centerXProperty());
         line.endYProperty().bind(c2.centerYProperty());
 
-        line.setStrokeWidth(1);
+        line.setStrokeWidth(2);
         line.setStrokeLineCap(StrokeLineCap.BUTT);
         line.getStrokeDashArray().setAll(1.0, 4.0);
 

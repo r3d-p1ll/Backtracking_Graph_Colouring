@@ -10,7 +10,7 @@ import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 public class ColorBox {
-    Color color_holder = Color.RED;
+    Color color_holder = Color.WHITE;
 
     public void display(){
         Stage window = new Stage();
@@ -22,11 +22,11 @@ public class ColorBox {
         VBox layout = (VBox) scene.getRoot();
         layout.setPadding(new Insets(5, 5, 5, 5));
         ColorPicker colorPicker = new ColorPicker();
-        colorPicker.setValue(Color.BLACK);
+        colorPicker.setValue(Color.WHITE);
 
         Text text = new Text("Pick Your Color." + "\n" + "After that just click on vertex you'd like to color.");
         text.setFont(Font.font ("Verdana", 14));
-        text.setFill(colorPicker.getValue());
+        text.setFill(Color.BLACK);
 
         colorPicker.setOnAction((ActionEvent t) -> {color_holder = colorPicker.getValue();});
 
