@@ -9,17 +9,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-    public class Fixed_Graph1 {
+import java.util.ArrayList;
+
+public class Fixed_Graph1 {
 
         static Scene scene1;
         static double orgSceneX, orgSceneY;
-
+        static Paint[] num_of_colors;
 
         private static EventHandler<MouseEvent> mousePressedEventHandler = (t) ->
         {
@@ -86,21 +89,37 @@ import javafx.stage.Stage;
             Group gr1 = new Group();
             scene1 = new Scene(gr1,900, 815);
 
+            ArrayList<Circle> cir = new ArrayList<Circle>();
             Circle Circle1 = createCircle(564, 285, 20, Color.WHITE);
+            cir.add(Circle1);
             Circle Circle2 = createCircle(576, 80, 20, Color.WHITE);
+            cir.add(Circle2);
             Circle Circle3 = createCircle(304, 705, 20, Color.WHITE);
+            cir.add(Circle3);
             Circle Circle4 = createCircle(564, 515, 20, Color.WHITE);
+            cir.add(Circle4);
             Circle Circle5 = createCircle(576, 705, 20, Color.WHITE);
+            cir.add(Circle5);
             Circle Circle6 = createCircle(304, 80, 20, Color.WHITE);
+            cir.add(Circle6);
             Circle Circle7 = createCircle(220, 280, 20, Color.WHITE);
+            cir.add(Circle7);
             Circle Circle8 = createCircle(642, 280, 20, Color.WHITE);
+            cir.add(Circle8);
             Circle Circle9 = createCircle(304, 515, 20, Color.WHITE);
+            cir.add(Circle9);
             Circle Circle10 = createCircle(220, 518, 20, Color.WHITE);
+            cir.add(Circle10);
             Circle Circle11 = createCircle(433, 634, 20, Color.WHITE);
+            cir.add(Circle11);
             Circle Circle12 = createCircle(304, 285, 20, Color.WHITE);
+            cir.add(Circle12);
             Circle Circle13 = createCircle(642, 518, 20, Color.WHITE);
+            cir.add(Circle13);
             Circle Circle14 = createCircle(433, 398, 20, Color.WHITE);
+            cir.add(Circle14);
             Circle Circle15 = createCircle(433, 161, 20, Color.WHITE);
+            cir.add(Circle15);
 
             Line line1 = connect(Circle2, Circle8);
             Line line2 = connect(Circle2, Circle15);
@@ -191,21 +210,27 @@ import javafx.stage.Stage;
             Circle14.toFront();
             Circle15.toFront();
 
-//    Creating a mouse event handler for a circle
-            EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>(){
-                @Override
-                public void handle(javafx.scene.input.MouseEvent e) {
-                    Circle1.setFill(Color.RED);
-                }
-            };
+            //Adding Event Filter to check which circle was clicked
+            ColorBox cbox = new ColorBox();
+            num_of_colors = new Paint[15]; //An array to hold the used colors.
 
-            Circle1.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
+            for (int i=0; i<cir.size(); i++){
+                final int temp_i = i;
+                cir.get(i).addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        cir.get(temp_i).setFill(cbox.getValue());
+                        num_of_colors[temp_i] = cir.get(temp_i).getFill();
+                    }
+                });
+            }
+
+            // Adding The ColorBox
+            cbox.display();
 
             window.setScene(scene1);
             window.setTitle("Graph Coloring Game");
             window.show();
-
         }
-
     }
 

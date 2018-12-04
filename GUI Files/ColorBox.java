@@ -22,7 +22,7 @@ public class ColorBox {
         VBox layout = (VBox) scene.getRoot();
         layout.setPadding(new Insets(5, 5, 5, 5));
         ColorPicker colorPicker = new ColorPicker();
-        colorPicker.setValue(Color.WHITE);
+        colorPicker.setValue(null);
 
         Text text = new Text("Pick Your Color." + "\n" + "After that just click on vertex you'd like to color.");
         text.setFont(Font.font ("Verdana", 14));

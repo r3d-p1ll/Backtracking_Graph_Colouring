@@ -8,6 +8,7 @@ public class Backtracking_Alg {
 
         /// !!! BACKTRACKING ALGORITHM !!! ///
         // Use matrix to compare vertices.
+    private static int chrom_number;
 
     public static void display(int [][] adj_matrix, int n, int m){
 
@@ -48,7 +49,7 @@ public class Backtracking_Alg {
                 System.out.print(colour_table[1][j] + " ");
             }
 
-            int chrom_number = 0;
+            chrom_number = 0;
             for (int i=0; i<colour_table[1].length; i++){
                 if (chrom_number < colour_table[1][i]){
                     chrom_number = colour_table[1][i];
@@ -94,6 +95,10 @@ public class Backtracking_Alg {
                 return false;
         }
         return true;
+    }
+
+    public static int getChromNumber(){
+        return chrom_number;
     }
 }
 

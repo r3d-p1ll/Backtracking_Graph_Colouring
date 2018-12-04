@@ -81,7 +81,8 @@ public class Main extends Application {
         layout1.setVgap(10);
         layout1.setAlignment(Pos.TOP_CENTER);
 
-        layout1.setStyle("-fx-background-image: url('https://ae01.alicdn.com/kf/HTB11jNebVmWBuNjSspdq6zugXXa2/Home-decoration-art-oriental-girl-flowers-fan-Silk-Fabric-Poster-Print-DM172.jpg_640x640.jpg')");
+        layout1.setStyle("-fx-background-image: url('https://ae01.alicdn.com/kf/HTB11jNebVmWBuNjSspdq6zugXXa2/Home-decoration-art-oriental-girl-flowers-fan-Silk-Fabric-Poster-Print-DM172.jpg_640x640.jpg'); " +
+                "-fx-background-size: cover");
         //Close window
         window.setOnCloseRequest(e -> {
             e.consume();

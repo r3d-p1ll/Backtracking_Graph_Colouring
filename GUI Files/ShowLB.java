@@ -14,12 +14,20 @@ public class ShowLB {
         window.setScene(scene);
         window.setScene(scene);
         window.setTitle("title");
-        Text text = new Text("The lowerbound is a minimum of colours. You've used " + (Random_Graphs.getNumColors()) + " colors so far.");
-        Text text2 = new Text("that you at least need to use, it could be more");
-        layout.add(text, 0, 0, 2, 1);
-        layout.add(text2, 0, 50, 2, 1);
-        Text text3 = new Text("Your lowerbound is:");
-        layout.add(text3, 0, 100, 2, 2);
+
+        if (Backtracking_Alg.getChromNumber() < Random_Graphs.getNumColors()){
+            Text text2 = new Text("You've used " + (Random_Graphs.getNumColors()) + " colors so far.\n" + " You could use less.");
+            layout.add(text2, 0, 50, 2, 1);
+        }
+        else if (Backtracking_Alg.getChromNumber() == Random_Graphs.getNumColors()){
+            Text text2 = new Text("You've used " + (Random_Graphs.getNumColors()) + " colors so far, which is the chromatic number\n" + "Congratulations!" );
+            layout.add(text2, 0, 50, 2, 1);
+        }
+        else{
+            Text text2 = new Text("You've used " + (Random_Graphs.getNumColors()) + " colors so far.\n" + "You need more colors.");
+            layout.add(text2, 0, 50, 2, 1);
+        }
+
         // IMPLEMENT LOWERBOUND
         window.show();
     }
