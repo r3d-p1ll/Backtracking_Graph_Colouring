@@ -12,10 +12,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.ColorInput;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -102,7 +99,6 @@ public class Random_Graphs {
         for (int i=0; i < num_of_colors.length; i++) {
             newset.add(num_of_colors[i]);
         }
-        System.out.println(newset);
         return newset.size()-1;
     }
 
@@ -129,10 +125,21 @@ public class Random_Graphs {
 
         int [][] adj_matrix = adj;
 
-        Group gr1 = new Group();
-        GridPane pane = new GridPane();
+        Pane pane_graph = new Pane();
+        pane_graph.setBorder(new Border(new BorderStroke(Color.BLACK,
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+//        pane_graph.setStyle("-fx-background-image: url('https://reinformation.tv/wp-content/uploads/2013/07/fond-d%C3%A9grad%C3%A9-mauvais.jpg');"+
+//        "-fx-background-repeat: stretch;"+
+//        "-fx-background-size: cover;"+
+//        "-fx-background-position: center center;"+
+//        "-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);");
 
-        VBox vbox = new VBox(gr1, pane);
+        pane_graph.setStyle(
+                "-fx-background-position: center center;"+
+                "-fx-effect: dropshadow(three-pass-box, grey, 30, 0.2, 0, 0);");
+
+        GridPane pane = new GridPane();
+        VBox vbox = new VBox(pane_graph, pane);
 
         //Adding HINTS button
         Button buttonhint = new Button("HINTS");
@@ -141,7 +148,7 @@ public class Random_Graphs {
 
         Label label = new Label();
         label.setText(message);
-        gr1.getChildren().add(label);
+        pane_graph.getChildren().add(label);
 
         // Reading adjacency matrix for random generated values and creating the graph
 //        final Circles cir[] = new Circles[adj_matrix.length];
@@ -153,7 +160,7 @@ public class Random_Graphs {
             cir[d] = new Circles(random_width, random_height);
             cir[d].Circle1 = createCircle(random_width, random_height, 15, Color.WHITE, adj_matrix.length); // Generating circles in random places
             Text number = new Text(random_width+20, random_height+20, String.valueOf(z));
-            gr1.getChildren().addAll(cir[d].Circle1, number);
+            pane_graph.getChildren().addAll(cir[d].Circle1, number);
             cir[d].Circle1.toFront();
             number.toFront();
         }
@@ -162,7 +169,7 @@ public class Random_Graphs {
             for (int j=0; j<adj_matrix[i].length; j++){
                 if (adj_matrix[i][j] == 1){
                     Line line1 = connect(cir[i].Circle1, cir[j].Circle1);
-                    gr1.getChildren().add(line1);
+                    pane_graph.getChildren().add(line1);
                     line1.toBack();
                 }
             }

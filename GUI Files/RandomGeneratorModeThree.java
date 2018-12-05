@@ -90,7 +90,6 @@ public class RandomGeneratorModeThree {
         return false;
     }
     public static void randomOrder(int a){
-
         Random rand = new Random();
 
         arrayRandom = new int [a];

@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.geometry.*;
 
 import java.awt.*;
+import java.io.File;
 import java.util.Random;
 
 public class AlertBox {
@@ -22,15 +23,15 @@ public class AlertBox {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(300);
-        window.setMinHeight(200);
+        window.setMinHeight(300);
 
         GridPane layout = new GridPane();
         layout.setPadding(new Insets(10, 10, 10, 10));
         layout.setHgap(10);
         layout.setVgap(10);
 
-        Label label = new Label(message);
-        GridPane.setConstraints(label,0,0);
+        Label label_random = new Label(message);
+        GridPane.setConstraints(label_random,0,0);
 
         TextField num_vert = new TextField();
         num_vert.setPromptText("Vertices");
@@ -40,8 +41,8 @@ public class AlertBox {
         num_edges.setPromptText("Edges");
         GridPane.setConstraints(num_edges, 0, 3);
 
-        Button closeButton = new Button("Go!");
-        closeButton.setOnAction(e -> {
+        Button goButton = new Button("Go!");
+        goButton.setOnAction(e -> {
             if(isInt(num_vert, num_edges)){
                 RandomGeneratorModeThree.random_gen(Integer.parseInt(num_vert.getText()), Integer.parseInt(num_edges.getText()));
                 e.consume();
@@ -49,11 +50,25 @@ public class AlertBox {
             }
         });
 
-        layout.setOnKeyPressed((event) -> { if(event.getCode() == KeyCode.ENTER) closeButton.fire(); });
+        layout.setOnKeyPressed((event) -> { if(event.getCode() == KeyCode.ENTER) goButton.fire(); });
+        GridPane.setConstraints(goButton, 3, 3);
 
-        GridPane.setConstraints(closeButton, 4, 3);
+        Label label_file = new Label("OR");
+        Label label_file_2 = new Label("Choose from a file:");
+        GridPane.setConstraints(label_file,0,5);
+        GridPane.setConstraints(label_file_2,0,6);
 
-        layout.getChildren().addAll(label, closeButton, num_vert, num_edges);
+        FileChooser file_chooser = new FileChooser();
+        Button file_button  = new Button("Choose File");
+        file_button.setOnAction(e -> {
+            File file = file_chooser.showOpenDialog(window);
+            if (file != null) {
+                Read_File_Backtracking.display(file);
+            }
+        });
+        GridPane.setConstraints(file_button, 0, 7);
+
+        layout.getChildren().addAll(label_random, goButton, num_vert, num_edges, label_file, label_file_2, file_button);
         layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout);

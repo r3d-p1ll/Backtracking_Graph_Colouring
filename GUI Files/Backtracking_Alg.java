@@ -1,9 +1,5 @@
 package sample;
 
-import java.io.*;
-import java.util.*;
-import java.util.Scanner;
-
 public class Backtracking_Alg {
 
         /// !!! BACKTRACKING ALGORITHM !!! ///
@@ -101,4 +97,3 @@ public class Backtracking_Alg {
         return chrom_number;
     }
 }
-
