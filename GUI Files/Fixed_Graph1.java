@@ -1,12 +1,9 @@
 package sample;
 
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -19,7 +16,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class Fixed_Graph1 {
-
         static Scene scene1;
         static double orgSceneX, orgSceneY;
         static Paint[] num_of_colors;

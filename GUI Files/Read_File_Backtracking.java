@@ -2,7 +2,6 @@ package sample;
 
 import java.io.*;
 import java.util.*;
-import java.util.Scanner;
 
 		class ColEdge
 			{
@@ -28,7 +27,7 @@ public class Read_File_Backtracking
 //				System.exit(0);
 //				}
 
-				
+
 //			String inputfile = args[0];
 			
 			boolean seen[] = null;

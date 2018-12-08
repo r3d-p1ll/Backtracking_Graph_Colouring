@@ -5,16 +5,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.text.Font;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
-import javafx.scene.control.*;
 import javafx.geometry.*;
-
-import java.awt.*;
 import java.io.File;
-import java.util.Random;
 
 public class AlertBox {
     public static void display (String title, String message){
