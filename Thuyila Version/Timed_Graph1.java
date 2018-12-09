@@ -54,11 +54,13 @@ public class Timed_Graph1 {
         gameOverWindow = new Stage();
         GridPane grid = new GridPane();
         gameOverWindow.setTitle("Time's up!");
-        timeUsed = new Label("Time: ");
+        timeUsed = new Label("Time left: ");
         GridPane.setConstraints(timeUsed,2,2);
+        Label realChroma = new Label("Chromatic number: 3");
         chromaUsed = new Label("Chromatic reached:   " + colorCounter);
         GridPane.setConstraints(chromaUsed, 2,4);
-        grid.getChildren().addAll(timeUsed,chromaUsed);
+        GridPane.setConstraints(realChroma, 2, 3);
+        grid.getChildren().addAll(timeUsed, realChroma, chromaUsed);
         Scene gameOverScene = new Scene(grid);
         gameOverWindow.setScene(gameOverScene);
         gameOverWindow.show();
