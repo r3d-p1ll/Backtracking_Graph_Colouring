@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -70,6 +71,16 @@ public class Main extends Application {
         button3tip.setShowDelay(Duration.seconds(0.09));
         button3.setTooltip(button3tip);
 
+        // Music Button
+        ToggleButton musicButton = new ToggleButton("Music");
+        musicButton.setOnAction(event -> {
+            if (musicButton.isSelected()) {
+                player.pause();
+            }else {
+                player.play();
+            }
+        });
+
         explanation = new Button("?");
         explanation.setOnAction( e -> explainMode());
         Tooltip extip = new Tooltip("Explanation of the game");
@@ -80,6 +91,7 @@ public class Main extends Application {
         layout1.add(button1, 1, 9, 1, 1);
         layout1.add(button2, 1, 13, 1, 1);
         layout1.add(button3, 1, 17, 1, 1);
+        layout1.add(musicButton, 0, 0, 1, 1);
         layout1.add(explanation, 0,1,1,1);
         layout1.setHgap(10);
         layout1.setVgap(10);

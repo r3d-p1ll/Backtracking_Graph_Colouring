@@ -138,12 +138,14 @@ public class Random_Graphs {
         return height;
     }
 
-    /**
-     * Hinter method is invoking the "Hint" window, whenever the "Hint" button is clicked.
-     */
-
-    public static void Hinter(){
-        Hint.display("Hint", "Need help?");
+    public static boolean CheckColors(int adj [][]){
+        boolean seen = true;
+        for (int d=0; d<adj.length; d++){
+            if(cir[d].Circle1.getFill().equals(Color.TRANSPARENT)){
+                seen = false;
+            }
+        }
+        return seen;
     }
 
     /**
@@ -179,9 +181,20 @@ public class Random_Graphs {
         window.setTitle(title);
         window.setMinWidth(250);
 
+        //Adding Text to the pane.
+        Text text_color = new Text("Pick Your Color." + "\n" + "After that right-click on vertex you'd like to color. ");
+        text_color.setFont(Font.font ("Verdana", 14));
+        text_color.setFill(Color.BLACK);
+
+        // Text display for how many colors have been used so far.
+        final Text text = new Text("\nColors used: 0");
+        text.setText("\nColors used: 0");
+        text.setFont(Font.font ("Verdana", 14));
+
         //Adding a pane for the elements of the graph
         Pane pane_graph = new Pane();
         pane_graph.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        pane_graph.setMinSize(1100, 700);
         pane_graph.setStyle(
 
 //                "-fx-background-image: url('https://en.wikipedia.org/wiki/The_Great_Wave_off_Kanagawa#/media/File:Tsunami_by_hokusai_19th_century.jpg');"+
@@ -193,9 +206,23 @@ public class Random_Graphs {
         VBox vbox = new VBox(pane_graph, pane);
 
         //Adding HINTS button
-        Button buttonhint = new Button("HINTS");
+        Button buttonhint = new Button("HELP");
         pane.add(buttonhint, 5,0,1,1);
-        buttonhint.setOnAction(e ->  Hinter());
+        buttonhint.setOnAction(e -> Hint.display("Hint", "Need help?"));
+
+        // Adding ENTER button for when the user is done with the coloring
+        Button end = new Button("Click when finished");
+        pane.add(end, 8,0,1,1);
+        end.setOnAction(e -> {
+            if(CheckColors(adj)){
+                EndMode.display();
+                window.close();
+            }
+            else{
+                text.setText("YOU HAVEN'T COLORED EVERY VERTICE");
+                text.setFill(Color.RED);
+            }
+        });
 
         Label label = new Label();
         label.setText(message);
@@ -204,8 +231,8 @@ public class Random_Graphs {
         // Reading adjacency matrix for random generated values and creating the graph
         cir = new Circles[adj.length];
         for (int d=0; d<adj.length; d++) {
-            int random_width = (int)(Math.random()*(width-50));
-            int random_height = (int)(Math.random()*(height-50));
+            int random_width = (int)(Math.random()*(width-200));
+            int random_height = (int)(Math.random()*(height-200));
             int z = array_random[d];
             cir[d] = new Circles(random_width, random_height);
             cir[d].Circle1 = createCircle(random_width, random_height, 15, Color.TRANSPARENT);
@@ -232,30 +259,33 @@ public class Random_Graphs {
         Button button_layout = new Button("ORDER");
         pane.add(button_layout, 6,0,1,1);
         button_layout.setOnAction(e ->  {
-            pane_graph.getChildren().clear();
-            Circular_Layout.display(cir, adj.length);
+            // Code for reordering the graph is executed three times for better results of the X and Y coordinates.
+            for (int k=0; k<3; k++) {
+                pane_graph.getChildren().clear();
+                Circular_Layout.display(cir, adj.length);
 
-            //Re-adjusting circles
-            for (int d=0; d<adj.length; d++) {
-                int x = (int)(cir[d].Circle1.getCenterX()+230);
-                int y = (int)(cir[d].Circle1.getCenterY());
-                int z = array_random[d];
-                cir[d].Circle1.setCenterX(x);
-                cir[d].Circle1.setCenterY(y);
-                Text number1 = new Text(String.valueOf(z));
-                number1.xProperty().bind(cir[d].Circle1.centerXProperty());
-                number1.yProperty().bind(cir[d].Circle1.centerYProperty());
-                pane_graph.getChildren().addAll(cir[d].Circle1, number1);
-                cir[d].Circle1.toFront();
-                number1.toFront();
-            }
-            //Connecting the circles for the new layout
-            for (int i=0; i<adj.length; i++){
-                for (int j=0; j<adj[i].length; j++){
-                    if (adj[i][j] == 1){
-                        Line line1 = connect(cir[i].Circle1, cir[j].Circle1);
-                        pane_graph.getChildren().add(line1);
-                        line1.toBack();
+                //Re-adjusting circles
+                for (int d = 0; d < adj.length; d++) {
+                    int x = (int) (cir[d].Circle1.getCenterX() + 230);
+                    int y = (int) (cir[d].Circle1.getCenterY());
+                    int z = array_random[d];
+                    cir[d].Circle1.setCenterX(x);
+                    cir[d].Circle1.setCenterY(y);
+                    Text number1 = new Text(String.valueOf(z));
+                    number1.xProperty().bind(cir[d].Circle1.centerXProperty());
+                    number1.yProperty().bind(cir[d].Circle1.centerYProperty());
+                    pane_graph.getChildren().addAll(cir[d].Circle1, number1);
+                    cir[d].Circle1.toFront();
+                    number1.toFront();
+                }
+                //Connecting the circles for the new layout
+                for (int i = 0; i < adj.length; i++) {
+                    for (int j = 0; j < adj[i].length; j++) {
+                        if (adj[i][j] == 1) {
+                            Line line1 = connect(cir[i].Circle1, cir[j].Circle1);
+                            pane_graph.getChildren().add(line1);
+                            line1.toBack();
+                        }
                     }
                 }
             }
@@ -264,9 +294,6 @@ public class Random_Graphs {
         // Adding the color picker
         ColorPicker colorPicker = new ColorPicker();
         colorPicker.setValue(Color.TRANSPARENT);
-        Text text_color = new Text("Pick Your Color." + "\n" + "After that right-click on vertex you'd like to color.");
-        text_color.setFont(Font.font ("Verdana", 14));
-        text_color.setFill(Color.BLACK);
         colorPicker.setOnAction((ActionEvent t) -> {color_holder = colorPicker.getValue();});
         pane.setPadding(new Insets(5, 5, 5, 5));
         pane.add(colorPicker, 0, 0, 1, 1);
@@ -274,8 +301,6 @@ public class Random_Graphs {
 
         //Adding Event Filter to check which circle was clicked
         num_of_colors = new Paint[cir.length]; //An array to hold the used colors.
-        final Text text = new Text("\nColors used: 0");
-        text.setFont(Font.font ("Verdana", 14));
 
         for (int i=0; i<cir.length; i++){
             final int temp_i = i;
@@ -314,7 +339,7 @@ public class Random_Graphs {
                 }
             });
         }
-        pane.add(text,5,1,1,1);
+        pane.add(text,8,1,1,1);
 
         // Highlight circles when hovering over then with the mouse
         for (int i=0; i<cir.length; i++) {
