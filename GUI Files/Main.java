@@ -7,7 +7,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -15,16 +19,35 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 public class Main extends Application {
 
-    Button button1, button2, button3, explanation;
-    Scene scene1;
-    Stage window;
+    private Button button1, button2, button3, explanation;
+    private Scene scene1;
+    private Stage window;
+
+    //for the music
+    private Media media;
+    private MediaPlayer player;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         window = primaryStage;
+
+        //for the music, change the directory of where it it installed.
+        String path = "src/sample/actual.wav";  //use uri so that it would not have to modify
+        media = new Media(new File(path).toURI().toString());
+        player = new MediaPlayer(media);
+        player.setAutoPlay(true);
+        player.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                player.seek(Duration.ZERO);
+            }
+        });
+        player.play();
 
         //BUTTON 1
         button1 = new Button("Mode 1: You decide!");
@@ -62,7 +85,7 @@ public class Main extends Application {
         layout1.setVgap(10);
         layout1.setAlignment(Pos.TOP_CENTER);
 
-        layout1.setStyle("-fx-background-image: url('https://ae01.alicdn.com/kf/HTB11jNebVmWBuNjSspdq6zugXXa2/Home-decoration-art-oriental-girl-flowers-fan-Silk-Fabric-Poster-Print-DM172.jpg_640x640.jpg'); " +
+        layout1.setStyle("-fx-background-image: url('https://ae01.alicdn.com/kf/HTB11jNebVmWBuNjSspdq6zugXXa2/Home-decoration-art-oriental-girl-flowers-fan-Silk-Fabric-Poster-Print-DM172.jpg_640x640.jpg');" +
                 "-fx-background-size: cover");
         //Close window
         window.setOnCloseRequest(e -> {
@@ -70,16 +93,19 @@ public class Main extends Application {
             closeProgram();
         });
 
-        Text titleword = new Text("GRAPHCOLORING");
-        titleword.setFont(Font.font("Tahoma", FontWeight.NORMAL, 30));
-        titleword.setFill(Color.BLACK);
-        layout1.add(titleword, 1, 1, 5, 1);
+        //for the image.  Change directory of the where image is installed.
+        Image titleword = new Image(new FileInputStream("src/sample/Capture.png")); //logos from shopify.com
+        ImageView imageView = new ImageView(titleword);
+        imageView.setFitHeight(120);
+        imageView.setFitWidth(180);
+        layout1.add(imageView, 1, 1, 5, 1);
 
         Text bottom = new Text("By the \"Oriental\" group");
         bottom.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         layout1.add(bottom, 2, 20, 5, 1);
-        scene1 = new Scene(layout1, 600, 400);
+        scene1 = new Scene(layout1, 1000, 600);
 
+        scene1.getStylesheets().add(getClass().getResource("styling.css").toExternalForm());
         window.setScene(scene1);
         window.setTitle("Graph Coloring Game");
         window.show();

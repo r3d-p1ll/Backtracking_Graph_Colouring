@@ -3,26 +3,22 @@ package sample;
 public class Circular_Layout {
     public static void display(Circles [] cir, int num_vert)
     {
-
         // Moves the vertices to build a circle. Makes sure the
         // radius is large enough for the vertices to not
         // overlap
 
-            // Gets all vertices inside the parent and finds
-            // the maximum dimension of the largest vertex
-            double max = 0;
-            Double top = null;
-            Double left = null;
+        double max = 0;
+        Double top = null;
+        Double left = null;
 
-            for (int i = 0; i < num_vert; i++)
-            {
-                top = cir[i].Circle1.getCenterY();
-                left = cir[i].Circle1.getCenterX();
-                max = Math.max(max, Math.max(Random_Graphs.getWidth(), Random_Graphs.getHeight()));
-            }
+        for (int i = 0; i < num_vert; i++) {
+            top = cir[i].Circle1.getCenterY();
+            left = cir[i].Circle1.getCenterX();
+            max = Math.max(max, Math.max(Random_Graphs.getWidth(), Random_Graphs.getHeight()));
+        }
 
-            double r = Math.max(num_vert * max / Math.PI, 15);
-            circle(cir, r, left.doubleValue(), top.doubleValue());
+        double r = Math.max(num_vert * max / Math.PI, 15);
+        circle(cir, r, left.doubleValue(), top.doubleValue());
     }
 
     /**

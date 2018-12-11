@@ -19,18 +19,27 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.util.*;
+
+/**
+ * Implementing the "Random" mode of the game
+ * The user can choose between entering the number of vertices and edges themselves or loading from a file.
+ * The vertices are displayed in random places.
+ * However the user can change the layout of the graph to a circular one, after pressing the "Order" button.
+ */
 
 public class Random_Graphs {
 
-    static Scene scene1;
-    static double orgSceneX, orgSceneY;
-    static Paint[] num_of_colors;
-    static Circles [] cir;
-    static int width = 1200;
-    static int height = 800;
-    static Color color_holder = Color.TRANSPARENT;
+    private static double orgSceneX, orgSceneY;
+    private static Paint[] num_of_colors;
+    private static Circles [] cir;
+    private static int width = 1200;
+    private static int height = 800;
+    private static Color color_holder = Color.TRANSPARENT;
+
+    /**
+     * Creating event handlers for detecting mouse events like clicking and dragging.
+     */
 
     private static EventHandler<MouseEvent> mousePressedEventHandler = (t) ->
     {
@@ -55,7 +64,19 @@ public class Random_Graphs {
         orgSceneY = t.getSceneY();
     };
 
-    private static Circle createCircle(double x, double y, double r, Color color, int adj_mat_length)
+    /**
+     * Creating the circles and connecting them with lines.
+     * for createCircle method:
+     * @param x for x value.
+     * @param y for y value.
+     * @param r for radius.
+     * @param color for color.
+     * @return a circle.
+     * The connect method takes two circles and connects them.
+     * @return a line.
+     */
+
+    private static Circle createCircle(double x, double y, double r, Color color)
     {
         Circle circle = new Circle(x, y, r, color);
         circle.setStroke(Color.BLACK);
@@ -85,17 +106,30 @@ public class Random_Graphs {
         return line;
     }
 
+    /**
+     * getNumColors - a Get method for the number of used colors.
+     * The method is adding the colors to a HashSet, so that only the unique colors will be counted in the end (no repetition).
+     * @return the size of the set.
+     */
+
     public static int getNumColors() {
         Set<Paint> newset = new HashSet<Paint>();
         for (int i=0; i < num_of_colors.length; i++) {
             newset.add(num_of_colors[i]);
         }
-        if (newset.iterator().next() != null)
+        if (newset.iterator().next() != null) {
             return newset.size();
-        System.out.println(newset);
+        }
+        System.out.println(num_of_colors.length);
+        System.out.println(newset.size());
 
         return newset.size()-1;
     }
+
+    /**
+     * getWidth and getHeight - two Get methods for the width and height of the window.
+     * This is used in the Circular_Layout class when calculating the circular positions of the vertices.
+     */
 
     public static int getWidth() {
         return width;
@@ -104,9 +138,21 @@ public class Random_Graphs {
         return height;
     }
 
+    /**
+     * Hinter method is invoking the "Hint" window, whenever the "Hint" button is clicked.
+     */
+
     public static void Hinter(){
         Hint.display("Hint", "Need help?");
     }
+
+    /**
+     * checkAdj method - check if the vertices are adjacent or not.
+     * @param adj_matrix the adjacency matrix.
+     * @param v the vertex.
+     * @param c the color of the vertex.
+     * @return false if vertices are adjacent.
+     */
 
     public static boolean checkAdj(int [][] adj_matrix, int v, Paint c){
         for (int i = 0; i < adj_matrix.length; i++){
@@ -119,20 +165,30 @@ public class Random_Graphs {
         return true;
     }
 
+    /**
+     * The display method implements all the elements that are added to the Random_Graph window.
+     * This includes functionality of the elements as well.
+     * @param title of the window.
+     * @param message of the window.
+     * @param adj is the adjacency matrix.
+     * @param array_random random array for randomly assigning values to the vertices.
+     */
+
     public static void display(String title, String message, int [][] adj, int [] array_random){
         Stage window = new Stage();
-
         window.setTitle(title);
         window.setMinWidth(250);
 
-        int [][] adj_matrix = adj;
-
+        //Adding a pane for the elements of the graph
         Pane pane_graph = new Pane();
         pane_graph.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         pane_graph.setStyle(
+
+//                "-fx-background-image: url('https://en.wikipedia.org/wiki/The_Great_Wave_off_Kanagawa#/media/File:Tsunami_by_hokusai_19th_century.jpg');"+
                 "-fx-background-position: center center;"+
                 "-fx-effect: dropshadow(three-pass-box, grey, 30, 0.2, 0, 0);");
 
+        //Adding a gridpane for the buttons, text and colorpicker.
         GridPane pane = new GridPane();
         VBox vbox = new VBox(pane_graph, pane);
 
@@ -146,24 +202,25 @@ public class Random_Graphs {
         pane_graph.getChildren().add(label);
 
         // Reading adjacency matrix for random generated values and creating the graph
-        Text number = null;
-        cir = new Circles[adj_matrix.length];
-        for (int d=0; d<adj_matrix.length; d++) {
+        cir = new Circles[adj.length];
+        for (int d=0; d<adj.length; d++) {
             int random_width = (int)(Math.random()*(width-50));
             int random_height = (int)(Math.random()*(height-50));
             int z = array_random[d];
             cir[d] = new Circles(random_width, random_height);
-            cir[d].Circle1 = createCircle(random_width, random_height, 15, Color.TRANSPARENT, adj_matrix.length); // Generating circles // in random places
-            number = new Text(random_width+20, random_height+20, String.valueOf(z));
+            cir[d].Circle1 = createCircle(random_width, random_height, 15, Color.TRANSPARENT);
+            Text number = new Text(String.valueOf(z));
+            number.xProperty().bind(cir[d].Circle1.centerXProperty());
+            number.yProperty().bind(cir[d].Circle1.centerYProperty());
             pane_graph.getChildren().addAll(cir[d].Circle1, number);
             cir[d].Circle1.toFront();
             number.toFront();
         }
 
         //Connecting the circles
-        for (int i=0; i<adj_matrix.length; i++){
-            for (int j=0; j<adj_matrix[i].length; j++){
-                if (adj_matrix[i][j] == 1){
+        for (int i=0; i<adj.length; i++){
+            for (int j=0; j<adj[i].length; j++){
+                if (adj[i][j] == 1){
                     Line line1 = connect(cir[i].Circle1, cir[j].Circle1);
                     pane_graph.getChildren().add(line1);
                     line1.toBack();
@@ -176,24 +233,26 @@ public class Random_Graphs {
         pane.add(button_layout, 6,0,1,1);
         button_layout.setOnAction(e ->  {
             pane_graph.getChildren().clear();
-            Circular_Layout.display(cir, adj_matrix.length);
+            Circular_Layout.display(cir, adj.length);
 
             //Re-adjusting circles
-            for (int d=0; d<adj_matrix.length; d++) {
+            for (int d=0; d<adj.length; d++) {
                 int x = (int)(cir[d].Circle1.getCenterX()+230);
                 int y = (int)(cir[d].Circle1.getCenterY());
                 int z = array_random[d];
                 cir[d].Circle1.setCenterX(x);
                 cir[d].Circle1.setCenterY(y);
-                Text number1 = new Text(x+20, y+20, String.valueOf(z));
+                Text number1 = new Text(String.valueOf(z));
+                number1.xProperty().bind(cir[d].Circle1.centerXProperty());
+                number1.yProperty().bind(cir[d].Circle1.centerYProperty());
                 pane_graph.getChildren().addAll(cir[d].Circle1, number1);
                 cir[d].Circle1.toFront();
                 number1.toFront();
             }
             //Connecting the circles for the new layout
-            for (int i=0; i<adj_matrix.length; i++){
-                for (int j=0; j<adj_matrix[i].length; j++){
-                    if (adj_matrix[i][j] == 1){
+            for (int i=0; i<adj.length; i++){
+                for (int j=0; j<adj[i].length; j++){
+                    if (adj[i][j] == 1){
                         Line line1 = connect(cir[i].Circle1, cir[j].Circle1);
                         pane_graph.getChildren().add(line1);
                         line1.toBack();
@@ -224,16 +283,17 @@ public class Random_Graphs {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
                     text.setText("");
+                    // Checks if the user picked a color from the color box in the beginning.
                     if (mouseEvent.getButton() == MouseButton.SECONDARY && colorPicker.getValue() == Color.TRANSPARENT){
                         text.setText("Pick a color first");
                         text.setFill(Color.RED);
                     }
-
-                    else if (mouseEvent.getButton() == MouseButton.SECONDARY && checkAdj(adj_matrix, temp_i, colorPicker.getValue())){
+                    // If the user right-clicks on a circle, the adjacency method is called to check if it's allowed to color the vertex.
+                    else if (mouseEvent.getButton() == MouseButton.SECONDARY && checkAdj(adj, temp_i, colorPicker.getValue())){
                         if (cir[temp_i].Circle1.getFill() == Color.TRANSPARENT) {
                             cir[temp_i].Circle1.setFill(colorPicker.getValue());
                             num_of_colors[temp_i] = cir[temp_i].Circle1.getFill();
-                            text.setText("\nColors used: " + (Random_Graphs.getNumColors()));
+                            text.setText("\nColors used: " + (getNumColors()));
                             text.setFill(Color.BLACK);
                         }
                         else {
@@ -243,7 +303,7 @@ public class Random_Graphs {
                     }
 
                     else if (mouseEvent.getButton() == MouseButton.PRIMARY){
-                        text.setText("\nColors used: " + (Random_Graphs.getNumColors()));
+                        text.setText("\nColors used: " + (getNumColors()));
                         text.setFill(Color.BLACK);
                     }
 
@@ -279,7 +339,7 @@ public class Random_Graphs {
                     });
         }
 
-        scene1 = new Scene(vbox, width+30, height+30);
+        Scene scene1 = new Scene(vbox, width+30, height+30);
         window.setScene(scene1);
         window.setTitle("Graph Coloring Game");
         window.show();

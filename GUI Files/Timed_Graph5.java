@@ -28,7 +28,18 @@ import javafx.scene.control.Label;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Set;
 
+/*class Time_Graph5 to display a graph, by circles and lines,
+run the time,
+count the chromatic number used by the player,
+compare that chromatic number to the original chromatic number pre-determined,
+display gameover window once the game is over,
+and to create a game with graph5
+@param method setGameOver() sets the gameover window with timer
+@param doTime() keeps record of the time
+@param dispaly() displays the graph
+ */
 public class Timed_Graph5 {
 
     static Scene scene1;
@@ -36,27 +47,49 @@ public class Timed_Graph5 {
     static Stage gameOverWindow;
     static Label layout;
     static double orgSceneX, orgSceneY;
-    static final Integer starttime = 10; //edit how long the timer is from here.
+    static final Integer starttime = 30; //edit how long the timer is from here.
     static Integer seconds = starttime;
     static Paint[] num_of_colors;
     static Color color_holder = Color.WHITE;
+    static Label timeUsed;
+    static Label chromaUsed;
+    static ColorPicker colorPicker;
+    static Color colorBeingUsed = Color.WHITE;
+    static int colorCounter;
+    static ArrayList<String> colorList;
+    static Set<String> allColors;
+    static int colorListLength;
 
-    //Game over screen method.
+
+    /*Game over screen method.
+    @param GridPane holds all the labels needed to be printed
+    @param Stage holds the GridPane
+    @param timeUsed keeps track of the time taken to finish the game in best scenario, or 0 in the worst scenario
+    @param realChroma holds the answer to the game
+    @param chromaUsed holds the answer reached by the player
+    setGameOver() keeps record of the time and once the chromatic number is reached or the time is over, shows the gameover window
+    */
     private static void setGameOver(){
         gameOverWindow = new Stage();
         GridPane grid = new GridPane();
         gameOverWindow.setTitle("Time's up!");
-        Label timeUsed = new Label("Time: ");
-        GridPane.setConstraints(timeUsed,0,0);
-        Label chromaUsed = new Label("Chromatic reached: ");
-        GridPane.setConstraints(chromaUsed, 0,1);
-        grid.getChildren().addAll(timeUsed,chromaUsed);
+        timeUsed = new Label("Time left: ");
+        GridPane.setConstraints(timeUsed,2,2);
+        Label realChroma = new Label("Chromatic number: 3");
+        chromaUsed = new Label("Chromatic reached:   " + colorCounter);
+        GridPane.setConstraints(chromaUsed, 2,4);
+        GridPane.setConstraints(realChroma, 2, 3);
+        grid.getChildren().addAll(timeUsed, realChroma, chromaUsed);
         Scene gameOverScene = new Scene(grid);
         gameOverWindow.setScene(gameOverScene);
         gameOverWindow.show();
     }
 
-    //Timer method.
+    /*doTime() method starts the timer from a given time, and till the timer reaches zero or the game is done
+    @param TimeLine records the time
+    @param KeyFrame records the duration between time
+    @param handle() records the time from starting to end, and closes the window once the game is over
+     */
     private static void doTime() {
         Timeline time= new Timeline();
 
@@ -91,7 +124,10 @@ public class Timed_Graph5 {
 
     }
 
-    //Mouse click listener.
+    /*Mouse click listener enables the action specified once the mouse is clicked
+     @param t MouseEvent specified
+     @param Circle the circle clicked
+      */
     private static EventHandler<MouseEvent> mousePressedEventHandler = (t) ->
     {
         orgSceneX = t.getSceneX();
@@ -100,11 +136,16 @@ public class Timed_Graph5 {
         Circle c = (Circle) (t.getSource());
         c.toFront();
     };
-
+    /* Hinter() method to help the user when lost
+    @param display() method of Hint
+     */
     public static void Hinter(){
         Hint.display("Hint", "Need help?");
     }
-    //Mouse drag listener.
+    /*Mouse drag listener enables dragging option by the mouse
+    @param t specified MouseEvent
+    @param Circle circle to be dragged
+     */
     private static EventHandler<MouseEvent> mouseDraggedEventHandler = (t) ->
     {
         double offsetX = t.getSceneX() - orgSceneX;
@@ -119,7 +160,12 @@ public class Timed_Graph5 {
         orgSceneY = t.getSceneY();
     };
 
-    //Create GUI object Circle.
+    /*createCircle() creates a circle object with (x,y), the radius and the color
+    @param x starting coordinate of x-axis of the circle
+    @param y starting coordinate of y-axis of the circle
+    @param r the radius of the circle to be drawn
+    @param color Color of the circle
+     */
     private static Circle createCircle(double x, double y, double r, Color color)
     {
         Circle circle = new Circle(x, y, r, color);
@@ -135,7 +181,10 @@ public class Timed_Graph5 {
         return circle;
     }
 
-    //Create GUI object line.
+    /*connect() connects the two circles specified with a line
+    @param c1 the circle to start the line from
+    @param c2 the circle to conner with c1
+     */
     private static Line connect(Circle c1, Circle c2)
     {
         Line line = new Line();
@@ -152,7 +201,10 @@ public class Timed_Graph5 {
 
         return line;
     }
-
+    /*method display() to display the graph chosen by the user
+    @param title title of the graph
+    @param message message printed to the user
+     */
     public static void display(String title, String message){
         window = new Stage();
 
@@ -179,9 +231,7 @@ public class Timed_Graph5 {
         label.setText(message);
         pane_graph.getChildren().add(label);
 
-        //Group pane_graph = new Group();
-        //scene1 = new Scene(pane_graph,900, 815);
-
+        //create all circle objects
         Circle Circle1 = createCircle(150, 170, 15, Color.WHITE);
         Circle Circle2 = createCircle(220, 170, 15, Color.WHITE);
         Circle Circle3 = createCircle(220, 235, 15, Color.WHITE);
@@ -236,6 +286,7 @@ public class Timed_Graph5 {
         Circle Circle52 = createCircle(710, 710, 15, Color.WHITE);
         Circle Circle53 = createCircle(640, 710, 15, Color.WHITE);
 
+        //connet specified circles with lines
         Line line1 = connect(Circle1, Circle2);
         Line line2 = connect(Circle2, Circle3);
         Line line3 = connect(Circle3, Circle4);
@@ -500,11 +551,8 @@ public class Timed_Graph5 {
         Circle52.toFront();
         Circle53.toFront();
 
-        ColorBox cbox = new ColorBox();
         num_of_colors = new Paint[53]; //An array to hold the used colors.
-
-        //for the part to color the box.
-        //Unfortunately I could not find a better solution than this for now.  Cause I am not 100% how you represent the graphs exactly.
+        //adding all circles to an array, to calculate the colors used by the user
         ArrayList<Circle> list = new ArrayList<Circle>();
         list.add(Circle1);
         list.add(Circle2);
@@ -569,31 +617,9 @@ public class Timed_Graph5 {
         list.add(Circle51);
         list.add(Circle52);
         list.add(Circle53);
-        /*Iterator<Circle> iterator = list.iterator();
-
-        while (iterator.hasNext()){
-            Circle temp = iterator.next();
-            temp.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    temp.setFill(cbox.getValue());
-                }
-            });
-        }*/
-
-        for (int i=0; i<list.size(); i++){
-            final int temp_i = i;
-            list.get(i).addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    list.get(temp_i).setFill(cbox.getValue());
-                    num_of_colors[temp_i] = list.get(temp_i).getFill();
-                }
-            });
-        }
 
         // ADDING THE COLOR PICKER
-        ColorPicker colorPicker = new ColorPicker();
+        colorPicker = new ColorPicker();
         colorPicker.setValue(null);
         Text text_color = new Text("Pick Your Color." + "\n" + "After that right-click on vertex you'd like to color.");
         text_color.setFont(Font.font ("Verdana", 14));
@@ -602,8 +628,34 @@ public class Timed_Graph5 {
         pane.setPadding(new Insets(5, 5, 5, 5));
         pane.add(colorPicker, 0, 0, 1, 1);
         pane.add(text_color,0,1,1,1);
-        // Display the ColorBox.
-        //cbox.display();
+
+        for (int i=0; i<list.size(); i++){
+            final int temp_i = i;
+            list.get(i).addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    list.get(temp_i).setFill(colorPicker.getValue());
+                    num_of_colors[temp_i] = list.get(temp_i).getFill();
+                    colorList = new ArrayList<String>();
+                    if(colorPicker.getValue() != Color.WHITE){
+                        colorBeingUsed = colorPicker.getValue();
+                        colorList.add(colorBeingUsed.toString());
+                    }
+                    colorListLength = colorList.size();
+                }
+            });
+        }
+
+        for(int i = 0; i < colorListLength; i++){
+            for(int j = 0; j < colorListLength; j++){
+                if (colorList.get(i) == colorList.get(j)){
+                    colorList.remove(j);
+                }
+                colorCounter = colorList.size();
+                chromaUsed.setText("Chromatic reached:   " + colorCounter);
+            }
+        }
+
         scene1 = new Scene(vbox, 870, 800);
         window.setScene(scene1);
         window.setTitle("Graph Coloring Game");

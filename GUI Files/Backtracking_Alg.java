@@ -1,5 +1,4 @@
 package sample;
-
 public class Backtracking_Alg {
 
         /// !!! BACKTRACKING ALGORITHM !!! ///
@@ -7,14 +6,12 @@ public class Backtracking_Alg {
     private static int chrom_number;
 
     public static void display(int [][] adj_matrix, int n, int m){
-
         // Check it's a complete graph. If yes - print the amount of vertices (which is equal to the chromatic number) and stop the program.
         if ((n*(n-1))/2 == m){
             System.out.println("This a complete graph and the chromatic number is equal to the number of vertices. This graph has " + n + " vertices.");
         }
 
         // User input for the amount of colours we're testing with.
-
         else{
             int number_colours = n;
             graphColouring(adj_matrix, number_colours);
@@ -23,8 +20,7 @@ public class Backtracking_Alg {
 
     // THIS METHOD WOULD RETURN FALSE IF THE COLOURS ARE NOT ENOUGH TO COLOUR THE GRAPH.
     // OTHERWISE IT WOULD PRINT THE SOLUTION (AT LEAST ONE OF THE POSSIBLE SOLUTIONS).
-    public static boolean graphColouring(int adj_matrix[][], int number_colours)
-    {
+    public static boolean graphColouring(int adj_matrix[][], int number_colours) {
         // Create a colour matrix where we assign colour values to each vertex. Initial values set to 0.
         int [][] colour_table = new int [2][adj_matrix.length];
         int f = 0;
@@ -59,8 +55,7 @@ public class Backtracking_Alg {
     }
 
     // RECURSIVE METHOD TO HELP SOLVE THE M-COLOURING PROBLEM. IF SOLUTION IS NOT POSSIBLE, METHOD RETURNS FALSE.
-    public static boolean vertRecursion (int adj_matrix[][], int number_colours, int colour_table[][], int v)
-    {
+    public static boolean vertRecursion (int adj_matrix[][], int number_colours, int colour_table[][], int v) {
         // Base case for when the vertex that we're testing
         if (v > adj_matrix.length-1)
             return true;
@@ -84,8 +79,7 @@ public class Backtracking_Alg {
     }
 
     // CHECK ADJACENCY AND IF THE COLOUR IS SAFE
-    public static boolean checkAdjVert (int v, int adj_matrix[][], int colour_table[][], int c)
-    {
+    public static boolean checkAdjVert (int v, int adj_matrix[][], int colour_table[][], int c) {
         for (int i = 0; i < adj_matrix.length; i++){
             if (adj_matrix[v][i] == 1 && c == colour_table[1][i])
                 return false;

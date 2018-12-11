@@ -37,6 +37,12 @@ public class AlertBox {
         GridPane.setConstraints(num_edges, 0, 3);
 
         Button goButton = new Button("Go!");
+        goButton.setOnMouseEntered(e -> {
+            goButton.setStyle("-fx-background-color: #2EE59D");
+        });
+        goButton.setOnMouseExited(e -> {
+            goButton.setStyle("-fx-background-color: #cccccc");
+        });
         goButton.setOnAction(e -> {
             if(isInt(num_vert, num_edges)){
                 RandomGeneratorModeThree.random_gen(Integer.parseInt(num_vert.getText()), Integer.parseInt(num_edges.getText()));
@@ -55,6 +61,12 @@ public class AlertBox {
 
         FileChooser file_chooser = new FileChooser();
         Button file_button  = new Button("Choose File");
+        file_button.setOnMouseEntered(e -> {
+            file_button.setStyle("-fx-background-color: #2EE59D");
+        });
+        file_button.setOnMouseExited(e -> {
+            file_button.setStyle("-fx-background-color: #cccccc");
+        });
         file_button.setOnAction(e -> {
             File file = file_chooser.showOpenDialog(window);
             if (file != null) {

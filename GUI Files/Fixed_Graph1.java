@@ -83,6 +83,7 @@ public class Fixed_Graph1 {
             window.setMinWidth(250);
 
             Group gr1 = new Group();
+            gr1.setStyle("-fx-background-image: url('https://en.wikipedia.org/wiki/The_Great_Wave_off_Kanagawa#/media/File:Tsunami_by_hokusai_19th_century.jpg'); -fx-background-position: center; -fx-background-repeat: no-repeat; -fx-background-size: cover;");
             scene1 = new Scene(gr1,900, 815);
 
             ArrayList<Circle> cir = new ArrayList<Circle>();
