@@ -239,7 +239,7 @@ public class Timed_Graph10 {
          * @param ChromNum number of colors used by the player
          */
         private static void UsedColors(int ChromNum) {
-            Timed_Graph1.ShowUsedColors.display(ChromNum);
+            Timed_Graph10.ShowUsedColors.display(chromaticNumber);
         }
 
         /**

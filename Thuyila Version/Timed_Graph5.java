@@ -275,7 +275,7 @@ public class Timed_Graph5 {
          * @param ChromNum number of colors used by the player
          */
         private static void UsedColors(int ChromNum) {
-            Timed_Graph1.ShowUsedColors.display(ChromNum);
+            Timed_Graph5.ShowUsedColors.display(chromaticNumber);;
         }
 
         /**
