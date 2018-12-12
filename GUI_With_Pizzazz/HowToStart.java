@@ -10,7 +10,7 @@ public class HowToStart {
     public static void display (String title){
         Stage window = new Stage();
         GridPane layout = new GridPane();
-        Scene scene = new Scene(layout, 300, 100);
+        Scene scene = new Scene(layout, 450, 150);
         window.setScene(scene);
         window.setScene(scene);
         window.setTitle(title);

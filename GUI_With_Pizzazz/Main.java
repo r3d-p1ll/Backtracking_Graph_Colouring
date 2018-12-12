@@ -1,53 +1,37 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.beans.binding.ObjectExpression;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
-//import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Random;
-import javafx.scene.image.*;
-
-//for the beautiful music
-import javafx.scene.media.*;
 
 public class Main extends Application {
 
-    Button button1, button2, button3, explanation;
-    Scene scene1, scene2;
-    Stage window;
+    private Button button1, button2, button3, explanation;
+    private Scene scene1;
+    private Stage window;
 
     //for the music
-    Media media;
-    MediaPlayer player;
+    private Media media;
+    private MediaPlayer player;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -55,7 +39,7 @@ public class Main extends Application {
         window = primaryStage;
 
         //for the music, change the directory of where it it installed.
-        String path = "C:/Users/tdtsi/Documents/Data Science and Knowledge Engineering/Java Programs/Sem 1.2/src/sample/actual.wav";  //use uri so that it would not have to modify
+        String path = "src/sample/actual.wav";  //use uri so that it would not have to modify
         media = new Media(new File(path).toURI().toString());
         player = new MediaPlayer(media);
         player.setAutoPlay(true);
@@ -73,6 +57,7 @@ public class Main extends Application {
                 " Colors chosen once, CANNOT be changed!");
         button1tip.setShowDelay(Duration.seconds(0.09));
         button1.setTooltip(button1tip);
+        //button1.setTooltip(new Tooltip("Graphs generated with user's edges' and vertex's input. Colors choses once, CANNOT be changed!"));
 
         button2 = new Button("Mode 2: Think fast !");
         button2.setOnAction(e -> timeGraph());
@@ -86,6 +71,16 @@ public class Main extends Application {
         button3tip.setShowDelay(Duration.seconds(0.09));
         button3.setTooltip(button3tip);
 
+        // Music Button
+        ToggleButton musicButton = new ToggleButton("Music");
+        musicButton.setOnAction(event -> {
+            if (musicButton.isSelected()) {
+                player.pause();
+            }else {
+                player.play();
+            }
+        });
+
         explanation = new Button("?");
         explanation.setOnAction( e -> explainMode());
         Tooltip extip = new Tooltip("Explanation of the game");
@@ -96,15 +91,14 @@ public class Main extends Application {
         layout1.add(button1, 1, 9, 1, 1);
         layout1.add(button2, 1, 13, 1, 1);
         layout1.add(button3, 1, 17, 1, 1);
+        layout1.add(musicButton, 0, 0, 1, 1);
         layout1.add(explanation, 0,1,1,1);
         layout1.setHgap(10);
         layout1.setVgap(10);
         layout1.setAlignment(Pos.TOP_CENTER);
 
-        //style of layout1
-        layout1.setId("layout1");
-
-//        layout1.setStyle("-fx-background-image: url('https://ae01.alicdn.com/kf/HTB11jNebVmWBuNjSspdq6zugXXa2/Home-decoration-art-oriental-girl-flowers-fan-Silk-Fabric-Poster-Print-DM172.jpg_640x640.jpg')");
+        layout1.setStyle("-fx-background-image: url('https://ae01.alicdn.com/kf/HTB11jNebVmWBuNjSspdq6zugXXa2/Home-decoration-art-oriental-girl-flowers-fan-Silk-Fabric-Poster-Print-DM172.jpg_640x640.jpg');" +
+                "-fx-background-size: cover");
         //Close window
         window.setOnCloseRequest(e -> {
             e.consume();
@@ -112,17 +106,17 @@ public class Main extends Application {
         });
 
         //for the image.  Change directory of the where image is installed.
-        Image titleword = new Image(new FileInputStream("C:\\Users\\tdtsi\\Documents\\Data Science and Knowledge Engineering\\Java Programs\\Sem 1.2\\src\\sample\\Capture.png")); //logos from shopify.com
+        Image titleword = new Image(new FileInputStream("src/sample/Capture.png")); //logos from shopify.com
         ImageView imageView = new ImageView(titleword);
         imageView.setFitHeight(120);
         imageView.setFitWidth(180);
         layout1.add(imageView, 1, 1, 5, 1);
 
         Text bottom = new Text("By the \"Oriental\" group");
-        bottom.setFont(Font.font("Tahoma", FontWeight.NORMAL, 16));
+        bottom.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         layout1.add(bottom, 2, 20, 5, 1);
-        scene1 = new Scene(layout1, 600, 400);
-        //add the styling.css.  It has to be in the same folder as sample, otw copy-paste the whole file directory of where styling.css is in.
+        scene1 = new Scene(layout1, 1000, 600);
+
         scene1.getStylesheets().add(getClass().getResource("styling.css").toExternalForm());
         window.setScene(scene1);
         window.setTitle("Graph Coloring Game");
@@ -134,7 +128,7 @@ public class Main extends Application {
     }
 
     private void timeGraph() {
-        Timed_Graphs.display("Timed Mode", "Think fast!");
+        TimeChoiceBox.display("Timed Mode", "Think fast!");
     }
 
     private void fixedGraph(){
@@ -151,6 +145,7 @@ public class Main extends Application {
             window.close();
         }
     }
+
     public static void main(String[] args) {
         launch(args);
     }
