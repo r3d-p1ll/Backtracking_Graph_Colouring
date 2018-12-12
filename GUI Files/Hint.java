@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
@@ -18,18 +19,26 @@ public class Hint {
         window.setMinHeight(50);
 
         GridPane layout = new GridPane();
-        Button easy = new Button("I need a bit of help");
+        Label label = new Label();
+        label.setText("Too complicated?\n" +
+                "Try the ORDER button for a simpler view of the graph!\n" +
+                "If that doesn't help, choose one of the options below:\n" +
+                " ");
+        layout.getChildren().add(label);
+        layout.setConstraints(label, 0 ,0);
+
+        Button easy = new Button("How am I doing so far?");
         layout.getChildren().add(easy);
         layout.setAlignment(Pos.CENTER);
-        layout.setConstraints(easy, 50 ,20);
+        layout.setConstraints(easy, 0 ,2);
         easy.setOnAction(e -> UsedColors ());
 
-        Button hard = new Button("I am lost");
+        Button hard = new Button("Need an advice!");
         layout.getChildren().add(hard);
-        layout.setConstraints(hard, 50, 40);
+        layout.setConstraints(hard, 1, 2);
         hard.setOnAction( e -> startingPoint ());
 
-        Scene scene = new Scene(layout, 150, 100);
+        Scene scene = new Scene(layout, 500, 200);
         window.setScene(scene);
         window.showAndWait();
 

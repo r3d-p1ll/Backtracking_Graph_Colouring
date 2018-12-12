@@ -1,8 +1,5 @@
 package sample;
 
-//make sure to load this from disk :)
-
-import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.stage.*;
 import javafx.scene.*;
@@ -10,17 +7,20 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileInputStream;
-
+/**
+ * ConfirmBox class is invoked whenever the user wants to quit the game.
+ * Window pops up and asks the user for confirmation, before quitting.
+ */
 public class ConfirmBox {
+    private static boolean answer;
+    private static final double MIN_WIDTH = 250;
+    private static final double MIN_HEIGHT = 160;
 
-    static boolean answer;
-    //added this 2 for design.
-    static final double MIN_WIDTH = 250;
-    static final double MIN_HEIGHT = 160;
-
+    /**
+     * display method for invoking the class.
+     * @param title of the screen
+     * @param message of the screen.
+     */
     public static boolean display (String title, String message){
         Stage window = new Stage();
 

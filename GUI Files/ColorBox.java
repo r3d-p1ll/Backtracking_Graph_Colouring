@@ -9,9 +9,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 
+/**
+ * ColorBox class for creating the ColorPicker.
+ * ColorPicker holds all the colors the user can choose from in order to color the vertices.
+ */
 public class ColorBox {
     Color color_holder = Color.TRANSPARENT;
-
+    /**
+     * display method to invoke the ColorBox class
+     */
     public void display(){
         Stage window = new Stage();
         window.setX(1000);
@@ -36,7 +42,10 @@ public class ColorBox {
         window.requestFocus();
         window.show();
     }
-
+    /**
+     * getValue method
+     * @return the current color value.
+     */
     public Color getValue(){
         return color_holder;
     }

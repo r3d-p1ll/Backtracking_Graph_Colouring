@@ -3,7 +3,7 @@ package sample;
 import java.util.Random;
 
 public class RandomGeneratorModeThree {
-    static int [] arrayRandom;
+    private static int [] arrayRandom;
     public static void random_gen(int vert, int edge) {
 
         Random rand = new Random();
@@ -69,10 +69,10 @@ public class RandomGeneratorModeThree {
                         }
                     }
                 } else {
-                    System.out.println("too few edges");
+                    System.out.println("Too few edges");
                 }
             } else {
-                System.out.println("to many edges");
+                System.out.println("Too many edges");
             }
         }
     }

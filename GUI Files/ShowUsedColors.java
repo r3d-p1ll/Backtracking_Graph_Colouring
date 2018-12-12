@@ -26,13 +26,11 @@ public class ShowUsedColors {
 
         }
         else{
-            Text text2 = new Text("You can use less colours");
+            Text text2 = new Text("You've already used too many colors :(");
             layout.add(text2, 0, 50, 2, 1);
 
         }
-
         layout.add(text, 0, 0, 2, 1);
-
         window.show();
     }
 }

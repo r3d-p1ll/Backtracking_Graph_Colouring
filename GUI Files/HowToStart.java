@@ -14,8 +14,8 @@ public class HowToStart {
         window.setScene(scene);
         window.setScene(scene);
         window.setTitle(title);
-        Text text = new Text("It is easier to start from the vertice with the least amount of connections");
-        Text text2 = new Text("from there out you can continue the colouring");
+        Text text = new Text("It is easier to start from the vertice with the least amount of connections.");
+        Text text2 = new Text("From there out you can continue the colouring");
         layout.add(text, 0, 0, 2, 1);
         layout.add(text2, 0, 50, 2, 1);
         window.show();

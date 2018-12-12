@@ -3,6 +3,12 @@ package sample;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Read_File_Backtracking class is used for whenever the user wants to load a graph from a file.
+ * The file is processed and if it's in the right format, an adjacency matrix is generated.
+ * This object is also used to calculate the chromatic number of the graph from the file locally.
+ */
+
 		class ColEdge
 			{
 			int u;
@@ -21,15 +27,6 @@ public class Read_File_Backtracking
 		
 		public static void display( File file)
 			{
-//			if( args.length < 1 )
-//				{
-//				System.out.println("Error! No filename specified.");
-//				System.exit(0);
-//				}
-
-
-//			String inputfile = args[0];
-			
 			boolean seen[] = null;
 			
 			//! n is the number of vertices in the graph

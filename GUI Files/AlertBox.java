@@ -5,13 +5,26 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.geometry.*;
 import java.io.File;
 
+/**
+ * Implementing a pop-up window, which takes in user input for the Random mode of the game. User has two choices:
+ * Choice 1 - choose the number of vertices and edges and generate a graph.
+ * Choice 2 - load a graph from a file.
+ */
+
 public class AlertBox {
+    private static GridPane layout;
+    /**
+     * display method for displaying the graph with all the elements.
+     * @param title is the title of the string.
+     * @param message text to be displayed on the screen.
+     */
     public static void display (String title, String message){
         Stage window = new Stage();
 
@@ -19,8 +32,7 @@ public class AlertBox {
         window.setTitle(title);
         window.setMinWidth(300);
         window.setMinHeight(300);
-
-        GridPane layout = new GridPane();
+        layout = new GridPane();
         layout.setPadding(new Insets(10, 10, 10, 10));
         layout.setHgap(10);
         layout.setVgap(10);
@@ -83,6 +95,12 @@ public class AlertBox {
         window.showAndWait();
     }
 
+    /**
+     * isInt method checks if the user entered integers to the Text Fields or not.
+     * If not, an error message is displayed.
+     * @param input1 input from TextField 1
+     * @param input2 input from TextField 2
+     */
     public static boolean isInt(TextField input1, TextField input2){
         try{
             Integer.parseInt(input1.getText());
@@ -90,7 +108,11 @@ public class AlertBox {
             return true;
         }
         catch (NumberFormatException e){
-            System.out.println("Not a number, please enter digits");
+            String error = new String("Not a number, please enter digits");
+            Label label_error = new Label(error);
+            label_error.setTextFill(Color.RED);
+            GridPane.setConstraints(label_error,0,8, 1, 1);
+            layout.getChildren().add(label_error);
             return false;
         }
     }

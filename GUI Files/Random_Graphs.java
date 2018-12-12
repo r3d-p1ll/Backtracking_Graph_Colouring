@@ -3,7 +3,6 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -215,7 +214,7 @@ public class Random_Graphs {
         buttonhint.setOnMouseEntered(e -> buttonhint.setStyle("-fx-background-color: #2EE59D;"));
         buttonhint.setOnMouseExited(e -> buttonhint.setStyle("-fx-background-color: #e6e6e6"));
 
-        // Adding ENTER button for when the user is done with the coloring
+        // Adding FINISH button for when the user is done with the coloring
         Button end = new Button("FINISH");
         pane.add(end, 8,0,1,1);
         end.setPrefWidth(80);
@@ -243,10 +242,10 @@ public class Random_Graphs {
         for (int d=0; d<adj.length; d++) {
             int random_width = (int)(Math.random()*(width-200));
             int random_height = (int)(Math.random()*(height-200));
-            int z = array_random[d];
-            cir[d] = new Circles(random_width, random_height);
+//            int z = array_random[d];
+            cir[d] = new Circles();
             cir[d].Circle1 = createCircle(random_width, random_height, 15, Color.TRANSPARENT);
-            Text number = new Text(String.valueOf(z));
+            Text number = new Text(String.valueOf(d+1));
             number.xProperty().bind(cir[d].Circle1.centerXProperty());
             number.yProperty().bind(cir[d].Circle1.centerYProperty());
             pane_graph.getChildren().addAll(cir[d].Circle1, number);
@@ -283,17 +282,17 @@ public class Random_Graphs {
                 for (int d = 0; d < adj.length; d++) {
                     int x = (int) (cir[d].Circle1.getCenterX() + 230);
                     int y = (int) (cir[d].Circle1.getCenterY());
-                    int z = array_random[d];
+//                    int z = adj[d];
                     cir[d].Circle1.setCenterX(x);
                     cir[d].Circle1.setCenterY(y);
-                    Text number1 = new Text(String.valueOf(z));
+                    Text number1 = new Text(String.valueOf(d+1));
                     number1.xProperty().bind(cir[d].Circle1.centerXProperty());
                     number1.yProperty().bind(cir[d].Circle1.centerYProperty());
                     pane_graph.getChildren().addAll(cir[d].Circle1, number1);
                     cir[d].Circle1.toFront();
-                    number1.toFront();
+                    number1.toBack();
                 }
-                //Connecting the circles for the new layout
+                //Re-connecting the circles for the new layout
                 for (int i = 0; i < adj.length; i++) {
                     for (int j = 0; j < adj[i].length; j++) {
                         if (adj[i][j] == 1) {
@@ -333,12 +332,23 @@ public class Random_Graphs {
                         text.setFill(Color.RED);
                     }
                     // If the user right-clicks on a circle, the adjacency method is called to check if it's allowed to color the vertex.
+                    // It also checks if the user is following the right order or not. If not - they are not allowed to color the vertex.
                     else if (mouseEvent.getButton() == MouseButton.SECONDARY && checkAdj(adj, temp_i, colorPicker.getValue())){
-                        if (cir[temp_i].Circle1.getFill() == Color.TRANSPARENT) {
+                        if (temp_i == 0 && cir[0].Circle1.getFill() == Color.TRANSPARENT) {
                             cir[temp_i].Circle1.setFill(colorPicker.getValue());
                             num_of_colors[temp_i] = cir[temp_i].Circle1.getFill();
                             text.setText("\nColors used: " + (getNumColors()));
                             text.setFill(Color.BLACK);
+                        }
+                        else if (cir[temp_i].Circle1.getFill() == Color.TRANSPARENT && cir[temp_i-1].Circle1.getFill() != Color.TRANSPARENT) {
+                            cir[temp_i].Circle1.setFill(colorPicker.getValue());
+                            num_of_colors[temp_i] = cir[temp_i].Circle1.getFill();
+                            text.setText("\nColors used: " + (getNumColors()));
+                            text.setFill(Color.BLACK);
+                        }
+                        else if (cir[temp_i-1].Circle1.getFill() == Color.TRANSPARENT){
+                            text.setText("FOLLOW THE ORDER");
+                            text.setFill(Color.RED);
                         }
                         else {
                             text.setText("ALREADY COLORED");
