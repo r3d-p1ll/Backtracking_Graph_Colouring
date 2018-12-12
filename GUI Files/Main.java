@@ -13,7 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -22,6 +21,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.sql.Time;
 
 public class Main extends Application {
 
@@ -132,7 +132,7 @@ public class Main extends Application {
     }
 
     private void fixedGraph(){
-        ChoiceBox.display("Choose a Graph", "Please choose a Graph, 1-10");
+        FixedChoiceBox.display("Choose a Graph", "Please choose a Graph, 1-10");
     }
 
     private void explainMode() {
