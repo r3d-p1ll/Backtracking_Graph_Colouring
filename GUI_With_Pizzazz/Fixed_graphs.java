@@ -2,7 +2,7 @@ package sample;
 
 public class Fixed_graphs {
 
-    private static int n;
+    static int n;
 
     public static void choose_graph(Integer graph){
         n = graph;
@@ -36,9 +36,6 @@ public class Fixed_graphs {
             sample.Fixed_Graph14.display("Fixed Graph 14", "GoodLuck!");}
         if(n == 15){
             sample.Fixed_Graph15.display("Fixed Graph 15", "GoodLuck!");}
-
-
-
     }
 
 }

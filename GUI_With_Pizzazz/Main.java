@@ -97,8 +97,14 @@ public class Main extends Application {
         layout1.setVgap(10);
         layout1.setAlignment(Pos.TOP_CENTER);
 
-        layout1.setStyle("-fx-background-image: url('https://ae01.alicdn.com/kf/HTB11jNebVmWBuNjSspdq6zugXXa2/Home-decoration-art-oriental-girl-flowers-fan-Silk-Fabric-Poster-Print-DM172.jpg_640x640.jpg');" +
+
+        String imagePath = new String("/Users/slav/Documents/JAVA%20projects/Graph_Game/src/sample/oriental.jpg");
+        layout1.setStyle("-fx-background-image: url('file://"+imagePath+"');" +
                 "-fx-background-size: cover");
+
+//        layout1.setStyle("-fx-background-image: url('https://ae01.alicdn.com/kf/HTB11jNebVmWBuNjSspdq6zugXXa2/Home-decoration-art-oriental-girl-flowers-fan-Silk-Fabric-Poster-Print-DM172.jpg_640x640.jpg');" +
+//                "-fx-background-size: cover");
+
         //Close window
         window.setOnCloseRequest(e -> {
             e.consume();
@@ -113,6 +119,7 @@ public class Main extends Application {
         layout1.add(imageView, 1, 1, 5, 1);
 
         Text bottom = new Text("By the \"Oriental\" group");
+        bottom.setFill(Color.WHITE);
         bottom.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         layout1.add(bottom, 2, 20, 5, 1);
         scene1 = new Scene(layout1, 1000, 600);
@@ -132,7 +139,7 @@ public class Main extends Application {
     }
 
     private void fixedGraph(){
-        ChoiceBox.display("Choose a Graph", "Please choose a Graph, 1-10");
+        FixedChoiceBox.display("Choose a Graph", "Please choose a Graph, 1-10");
     }
 
     private void explainMode() {

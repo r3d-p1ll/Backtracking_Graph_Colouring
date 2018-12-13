@@ -32,15 +32,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-/*class Time_Graph12 to display a graph, by circles and lines,
-run the time,
-count the chromatic number used by the player,
-compare that chromatic number to the original chromatic number pre-determined,
-display gameover window once the game is over,
-and to create a game with graph12
-@param method setGameOver() sets the gameover window with timer
-@param doTime() keeps record of the time
-@param dispaly() displays the graph
+/**
+ * class Time_Graph12 to display a graph, by circles and lines,
+ *  run the time,
+ *  count the chromatic number used by the player,
+ *  compare that chromatic number to the original chromatic number pre-determined,
+ *  display gameover window once the game is over,
+ *  and to create a game with graph12
  */
 public class Timed_Graph12 {
 
@@ -49,43 +47,55 @@ public class Timed_Graph12 {
     private static Stage gameOverWindow;
     private static Label layout;
     private static double orgSceneX, orgSceneY;
-    private static final Integer starttime = 30; //edit how long the timer is from here.
+    private static final Integer starttime = 10;
     private static Integer seconds = starttime;
     private static Paint[] num_of_colors;
-    private static Color color_holder = Color.WHITE;
+    private static Color color_holder = Color.TRANSPARENT;
     private static Label timeUsed;
     private static Label chromaUsed;
     private static ColorPicker colorPicker;
-    private static Color colorBeingUsed = Color.WHITE;
-    private static int colorCounter;
     private static ArrayList<String> colorList;
     private static Set<String> allColors;
     private static int colorListLength;
-
-    //hint
+    private static int chromaticNumber = 4;
+    private static String comparision;
+    private static ArrayList<Circle> list;
     private static Label hintLabel;
-    /**@method setGameOver() is called when doTime is 0 and displays a new window.
+    /**
+     * Game over screen method.
+     * setGameOver() keeps record of the time and once the chromatic number is reached or the time is over, shows the gameover window
      */
+
     private static void setGameOver(){
         gameOverWindow = new Stage();
         GridPane grid = new GridPane();
         gameOverWindow.setTitle("Time's up!");
-        timeUsed = new Label("Time left: ");
-        GridPane.setConstraints(timeUsed,2,2);
-        Label realChroma = new Label("Chromatic number: 4");
-        chromaUsed = new Label("Chromatic reached:   " + colorCounter);
-        GridPane.setConstraints(chromaUsed, 2,4);
-        GridPane.setConstraints(realChroma, 2, 3);
-        grid.getChildren().addAll(timeUsed, realChroma, chromaUsed);
+        timeUsed = new Label("TIME'S UP!");
+        timeUsed.setFont(Font.font ("Verdana", 14));
+        GridPane.setConstraints(timeUsed,4,4);
+
+        if(getNumColors() == chromaticNumber)
+        {comparision = "Well done! Well played!";}
+        else if(getNumColors() > chromaticNumber)
+        {comparision = "Good attempt! Using less colors might've helped.";}
+        else { comparision = "Good attempt! You could've used more colors.";}
+
+        Label compareChroma = new Label(comparision);
+        compareChroma.setFont(Font.font ("Verdana", 14));
+        chromaUsed = new Label("You've reached " + getNumColors() + " chromatic colors.");
+        chromaUsed.setFont(Font.font ("Verdana", 14));
+        GridPane.setConstraints(chromaUsed, 4,6);
+        GridPane.setConstraints(compareChroma, 4, 8);
+        grid.getChildren().addAll(timeUsed, chromaUsed, compareChroma);
         Scene gameOverScene = new Scene(grid);
+        gameOverWindow.setMinWidth(300);
+        gameOverWindow.setMinHeight(100);
         gameOverWindow.setScene(gameOverScene);
         gameOverWindow.show();
     }
 
-    /**@method doTime() method starts the timer from a given time, and till the timer reaches zero or the game is done
-     *@obj TimeLine records the time
-     *@obj KeyFrame records the duration between time
-     *@event handle() records the time from starting to end, and closes the window once the game is over
+    /**
+     * doTime() method starts the timer from a given time, and till the timer reaches zero or the game is done
      */
     private static void doTime() {
         Timeline time= new Timeline();
@@ -95,6 +105,7 @@ public class Timed_Graph12 {
 
             @Override
             public void handle(ActionEvent event) {
+
                 seconds--;
                 layout.setText("T: "+seconds.toString());
                 if(seconds<=0){
@@ -103,10 +114,7 @@ public class Timed_Graph12 {
                     window.close();
                     setGameOver();
                 }
-
             }
-
-
         });
 
         time.setCycleCount(Timeline.INDEFINITE);
@@ -115,24 +123,14 @@ public class Timed_Graph12 {
             time.stop();
         }
         time.play();
-
-
     }
 
-    /*Mouse click listener enables the action specified once the mouse is clicked
-    @param t MouseEvent specified
-    @param Circle the circle clicked
+    /**
+     * Mouse click listener enables the action specified once the mouse is clicked
      */
 
-    /* Hinter() method to help the user when lost
-    @param display() method of Hint
-     */
-    public static void Hinter(){
-        Hint.display("Hint", "Need help?");
-    }
-    /**Mouse drag listener enables dragging option by the mouse
-     *@param t specified MouseEvent
-     *@param Circle circle to be dragged
+    /**
+     * Mouse drag listener enables dragging option by the mouse
      */
     private static EventHandler<MouseEvent> mouseDraggedEventHandler = (t) ->
     {
@@ -148,23 +146,22 @@ public class Timed_Graph12 {
         orgSceneY = t.getSceneY();
     };
 
-    /**createCircle() creates a circle object with (x,y), the radius and the color
-     *@param x starting coordinate of x-axis of the circle
-     *@param y starting coordinate of y-axis of the circle
-     *@param r the radius of the circle to be drawn
-     *@param color Color of the circle
-     * @param colorAttached is the number of color attached to this vertice and serves as the hint.
-     * @return a circle with x coordinate and r radius
+    /**
+     * createCircle() creates a circle object with (x,y), the radius and the color
+     * @param x
+     * @param y
+     * @param r
+     * @param color
+     * @return
      */
     private static Circle createCircle(double x, double y, double r, Color color, Integer colorAttached)
     {
         Circle circle = new Circle(x, y, r, color);
-        circle.setStrokeWidth(2);
+        circle.setStrokeWidth(4);
         circle.setStroke(Color.BLACK);
-        circle.setFill(Color.WHITE);
-
+        circle.setFill(Color.TRANSPARENT);
+        circle.setStrokeWidth(1.6);
         circle.setCursor(Cursor.CROSSHAIR);
-
         circle.setOnMousePressed((t) ->
         {
             orgSceneX = t.getSceneX();
@@ -174,8 +171,6 @@ public class Timed_Graph12 {
             c.toFront();
 
             if(t.getClickCount() == 2) {
-//                setColorAttached(colorAttached);
-//                System.out.println(getNumColors());
                 Stage hintWindow = new Stage();
                 VBox hint = new VBox();
                 Label hintExplain = new Label("Colors surrounding this vertice:");
@@ -194,10 +189,11 @@ public class Timed_Graph12 {
         return circle;
     }
 
-    /**connect() connects the two circles specified with a line
-     *@param c1 the circle from, i.e the starting point
-     *@param c2 the circle to, i.e the end point
-     * @return a dash line that serves as edge.
+    /**
+     * connect() connects the two circles specified with a line
+     * @param c1 the first circle to connect the line from
+     * @param c2 the other circle to connect the line to
+     * @return a line that's connected by the two specific circles
      */
     private static Line connect(Circle c1, Circle c2)
     {
@@ -215,15 +211,64 @@ public class Timed_Graph12 {
 
         return line;
     }
-    /**method display() to display the graph chosen by the user
-     *@param title title of the graph
-     *@param message message printed to the user
+
+    /**
+     * getNumColors() method to return the number of colors used for coloring the graph
+     * @return the number of colors used
+     */
+    public static int getNumColors() {
+        Set<Paint> newset = new HashSet<Paint>();
+        for (int i=0; i < num_of_colors.length; i++) {
+            newset.add(num_of_colors[i]);
+        }
+        if (newset.iterator().next() != null) {
+            return newset.size();
+        }
+        System.out.println(num_of_colors.length);
+        System.out.println(newset.size());
+
+        return newset.size()-1;
+    }
+
+    public static boolean checkAdj(int [][] adj_matrix, int v, Paint c){
+        for (int i = 0; i < adj_matrix.length; i++){
+            if (adj_matrix[v][i] == 1) {
+                if (list.get(i).getFill() == c) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * method display() to display the graph chosen by the user
+     * @param title title of the displayed graph window
+     * @param message message of through the window
      */
     public static void display(String title, String message){
         window = new Stage();
-
         window.setTitle(title);
         window.setMinWidth(250);
+
+        int[][] adj_matrix = new int[][]{
+                {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0},
+                {0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0},
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0},
+                {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0},
+                {0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1},
+                {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1},
+                {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1},
+                {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+                {0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+                {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1},
+                {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0}
+        };
 
         Pane pane_graph = new Pane();
         pane_graph.setBorder(new Border(new BorderStroke(Color.BLACK,
@@ -236,32 +281,36 @@ public class Timed_Graph12 {
         GridPane pane = new GridPane();
         VBox vbox = new VBox(pane_graph, pane);
 
-        //Adding HINTS button
+        /*
+         * Adding HINTS button
+         */
+
         Button buttonhint = new Button("HINTS");
         pane.add(buttonhint, 5,0,1,1);
-        buttonhint.setOnAction(e ->  Hinter());
+        buttonhint.setOnAction(e ->  Hint.display(" ", " ", getNumColors(),chromaticNumber));
 
         Label label = new Label();
         label.setText(message);
         pane_graph.getChildren().add(label);
-
-        //creating all circle objects of the Graph12
-        Circle Circle1 = createCircle(430, 85, 15, Color.WHITE,1);
-        Circle Circle2 = createCircle(430, 140, 15, Color.WHITE,1);
-        Circle Circle3 = createCircle(430, 230, 15, Color.WHITE,1);
-        Circle Circle4 = createCircle(430, 290, 15, Color.WHITE,1);
-        Circle Circle5 = createCircle(430, 350, 15, Color.WHITE,1);
-        Circle Circle6 = createCircle(430, 440, 15, Color.WHITE,1);
-        Circle Circle7 = createCircle(430, 500, 15, Color.WHITE,1);
-        Circle Circle8 = createCircle(430, 555, 15, Color.WHITE,1);
-        Circle Circle9 = createCircle(430, 640, 15, Color.WHITE,1);
-        Circle Circle10 = createCircle(430, 700, 15, Color.WHITE,1);
-        Circle Circle11 = createCircle(95, 190, 15, Color.WHITE,1);
-        Circle Circle12 = createCircle(95, 395, 15, Color.WHITE,1);
-        Circle Circle13 = createCircle(95, 600, 15, Color.WHITE,1);
-        Circle Circle14 = createCircle(760, 190, 15, Color.WHITE,1);
-        Circle Circle15 = createCircle(760, 395, 15, Color.WHITE,1);
-        Circle Circle16 = createCircle(760, 600, 15, Color.WHITE,1);
+        /*
+         * create circle objects
+         */
+        Circle Circle1 = createCircle(430, 85, 15, Color.TRANSPARENT,1);
+        Circle Circle2 = createCircle(430, 140, 15, Color.TRANSPARENT,1);
+        Circle Circle3 = createCircle(430, 230, 15, Color.TRANSPARENT,1);
+        Circle Circle4 = createCircle(430, 290, 15, Color.TRANSPARENT,1);
+        Circle Circle5 = createCircle(430, 350, 15, Color.TRANSPARENT,1);
+        Circle Circle6 = createCircle(430, 440, 15, Color.TRANSPARENT,1);
+        Circle Circle7 = createCircle(430, 500, 15, Color.TRANSPARENT,1);
+        Circle Circle8 = createCircle(430, 555, 15, Color.TRANSPARENT,1);
+        Circle Circle9 = createCircle(430, 640, 15, Color.TRANSPARENT,1);
+        Circle Circle10 = createCircle(430, 700, 15, Color.TRANSPARENT,1);
+        Circle Circle11 = createCircle(95, 190, 15, Color.TRANSPARENT,1);
+        Circle Circle12 = createCircle(95, 395, 15, Color.TRANSPARENT,1);
+        Circle Circle13 = createCircle(95, 600, 15, Color.TRANSPARENT,1);
+        Circle Circle14 = createCircle(760, 190, 15, Color.TRANSPARENT,1);
+        Circle Circle15 = createCircle(760, 395, 15, Color.TRANSPARENT,1);
+        Circle Circle16 = createCircle(760, 600, 15, Color.TRANSPARENT,1);
 
         Line line1 = connect(Circle1, Circle2);
         Line line2 = connect(Circle1, Circle11);
@@ -298,7 +347,9 @@ public class Timed_Graph12 {
         Line line33 = connect(Circle10, Circle16);
 
 
-        //add the circles
+        /*add the circles
+         *
+         */
         pane_graph.getChildren().add(Circle1);
         pane_graph.getChildren().add(Circle2);
         pane_graph.getChildren().add(Circle3);
@@ -316,7 +367,9 @@ public class Timed_Graph12 {
         pane_graph.getChildren().add(Circle15);
         pane_graph.getChildren().add(Circle16);
 
-        // add the lines
+        /* add the lines
+         *
+         */
         pane_graph.getChildren().add(line1);
         pane_graph.getChildren().add(line2);
         pane_graph.getChildren().add(line3);
@@ -351,13 +404,17 @@ public class Timed_Graph12 {
         pane_graph.getChildren().add(line32);
         pane_graph.getChildren().add(line33);
 
-        //for the timer
+        /*for the timer
+         *
+         */
         layout = new Label();
         layout.setText("T: 10");
         doTime();
         pane_graph.getChildren().addAll(layout);
 
-        // bring the circles to the front of the lines
+        /* bring the circles to the front of the lines
+         *
+         */
         Circle1.toFront();
         Circle2.toFront();
         Circle3.toFront();
@@ -375,12 +432,12 @@ public class Timed_Graph12 {
         Circle15.toFront();
         Circle16.toFront();
 
-        ColorBox cbox = new ColorBox();
-        num_of_colors = new Paint[16]; //An array to hold the used colors.
+        /*An array to hold the used colors.
+         *
+         */
+        num_of_colors = new Paint[16];
 
-        //for the part to color the box.
-        //Unfortunately I could not find a better solution than this for now.  Cause I am not 100% how you represent the graphs exactly.
-        ArrayList<Circle> list = new ArrayList<Circle>();
+        list = new ArrayList<Circle>();
         list.add(Circle1);
         list.add(Circle2);
         list.add(Circle3);
@@ -398,10 +455,12 @@ public class Timed_Graph12 {
         list.add(Circle15);
         list.add(Circle16);
 
-        //ADDING THE COLOR PICKER
+        /*
+         * ADDING THE COLOR PICKER
+         */
         colorPicker = new ColorPicker();
-        colorPicker.setValue(null);
-        Text text_color = new Text("Pick Your Color." + "\n" + "After that right-click on vertex you'd like to color.");
+        colorPicker.setValue(Color.TRANSPARENT);
+        Text text_color = new Text("Pick Your Color and right-click on the vertex you'd like to color.");
         text_color.setFont(Font.font ("Verdana", 14));
         text_color.setFill(Color.BLACK);
         colorPicker.setOnAction((ActionEvent t) -> {color_holder = colorPicker.getValue();});
@@ -409,7 +468,7 @@ public class Timed_Graph12 {
         pane.add(colorPicker, 0, 0, 1, 1);
         pane.add(text_color,0,1,1,1);
 
-        final Text text = new Text("\nColors used: 0");
+        final Text text = new Text("                                Colors used: 0");
         text.setFont(Font.font ("Verdana", 14));
         for (int i=0; i<list.size(); i++){
             final int temp_i = i;
@@ -422,15 +481,15 @@ public class Timed_Graph12 {
                         text.setFill(Color.RED);
                     }
 
-                    else if (mouseEvent.getButton() == MouseButton.SECONDARY){
+                    else if (mouseEvent.getButton() == MouseButton.SECONDARY && checkAdj(adj_matrix, temp_i, colorPicker.getValue())){
                         list.get(temp_i).setFill(colorPicker.getValue());
                         num_of_colors[temp_i] = list.get(temp_i).getFill();
-                        text.setText("\nColors used: " + (getNumColors()));
+                        text.setText("                              Colors used: " + (getNumColors()));
                         text.setFill(Color.BLACK);
                     }
 
                     else if (mouseEvent.getButton() == MouseButton.PRIMARY){
-                        text.setText("\nColors used: " + (getNumColors()));
+                        text.setText("                              Colors used: " + (getNumColors()));
                         text.setFill(Color.BLACK);
                     }
 
@@ -443,25 +502,14 @@ public class Timed_Graph12 {
         }
         pane.add(text,5,1,1,1);
 
-        scene1 = new Scene(vbox, 830, 850);
+        /*
+         * final scene
+         */
+        scene1 = new Scene(vbox, 850, 850);
         window.setScene(scene1);
         window.setTitle("Graph Coloring Game");
         window.show();
 
-    }
-
-    public static int getNumColors() {
-        Set<Paint> newset = new HashSet<Paint>();
-        for (int i=0; i < num_of_colors.length; i++) {
-            newset.add(num_of_colors[i]);
-        }
-        if (newset.iterator().next() != null) {
-            return newset.size();
-        }
-        System.out.println(num_of_colors.length);
-        System.out.println(newset.size());
-
-        return newset.size()-1;
     }
 
 }

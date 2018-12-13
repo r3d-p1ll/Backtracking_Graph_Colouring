@@ -1,14 +1,18 @@
 package sample;
 public class Backtracking_Alg {
 
-        /// !!! BACKTRACKING ALGORITHM !!! ///
-        // Use matrix to compare vertices.
+    /**
+     * Backtracking_Alg is the backtracking algorithm used to calculate the chromatic number of a graph.
+     * During the game, this is used only for the Random Mode.
+     * It returns the chromatic number.
+     */
     private static int chrom_number;
 
     public static void display(int [][] adj_matrix, int n, int m){
         // Check it's a complete graph. If yes - print the amount of vertices (which is equal to the chromatic number) and stop the program.
         if ((n*(n-1))/2 == m){
             System.out.println("This a complete graph and the chromatic number is equal to the number of vertices. This graph has " + n + " vertices.");
+            chrom_number = n;
         }
 
         // User input for the amount of colours we're testing with.

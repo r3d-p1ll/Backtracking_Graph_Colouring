@@ -34,43 +34,51 @@ import java.util.Set;
 
 public class Fixed_Graph4 {
 
-	private static Scene scene1;
-	private static Stage window;
-	private static Stage gameOverWindow;
-	private static Label layout;
-	private static double orgSceneX, orgSceneY;
-	private static final Integer starttime = 0; //edit how long the timer is from here.
-	private static Integer seconds = starttime;
-	private static Paint[] num_of_colors;
-	private static Color color_holder = Color.TRANSPARENT;
-	private static Label timeUsed;
-	private static Label chromaUsed;
-	private static ColorPicker colorPicker;
-	private static ArrayList<String> colorList;
-	private static Set<String> allColors;
-	private static int colorListLength;
+	static Scene scene1;
+	static Stage window;
+	static Stage gameOverWindow;
+	static Label layout;
+	static double orgSceneX, orgSceneY;
+	static final Integer starttime = 0; //edit how long the timer is from here.
+	static Integer seconds = starttime;
+	static Paint[] num_of_colors;
+	static Color color_holder = Color.TRANSPARENT;
+	static Label timeUsed;
+	static Label chromaUsed;
+	static ColorPicker colorPicker;
+	static ArrayList<String> colorList;
+	static Set<String> allColors;
+	static int colorListLength;
+	private final static int chrNum = 2;
+	static ArrayList<Circle> list;
+	static Button end;
+	static int lastTime;
+	private static Timeline time;
+	static int[][] multi;
 
-	private static Integer colorAttached;
 	private static Label hintLabel;
+
+	public static int getChrNum(){
+		return chrNum;
+	}
 
 	private static void setGameOver(){
 		gameOverWindow = new Stage();
 		GridPane grid = new GridPane();
-		gameOverWindow.setTitle("Time's up!");
-		timeUsed = new Label("Time left: ");
+		gameOverWindow.setTitle("Good job");
+		timeUsed = new Label("It took you: " +  lastTime + " seconds");
 		GridPane.setConstraints(timeUsed,2,2);
-		Label realChroma = new Label("Chromatic number: 4");
-		chromaUsed = new Label("Chromatic reached:   " + getNumColors());
-		GridPane.setConstraints(chromaUsed, 2,4);
-		GridPane.setConstraints(realChroma, 2, 3);
-		grid.getChildren().addAll(timeUsed, realChroma, chromaUsed);
-		Scene gameOverScene = new Scene(grid);
+
+
+
+		grid.getChildren().addAll(timeUsed);
+		Scene gameOverScene = new Scene(grid, 250, 150);
 		gameOverWindow.setScene(gameOverScene);
 		gameOverWindow.show();
 	}
 
 	private static void doTime() {
-		Timeline time = new Timeline();
+		time = new Timeline();
 		KeyFrame frame = new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
 
 			@Override
@@ -170,6 +178,26 @@ public class Fixed_Graph4 {
 		return newset.size()-1;
 	}
 
+	public static boolean CheckColors(int adj [][]){
+		boolean seen = true;
+		for (int d=0; d<adj.length; d++){
+			if(list.get(d).getFill().equals(Color.TRANSPARENT)){
+				seen = false;
+			}
+		}
+		return seen;
+	}
+	public static boolean checkAdj(int [][] adj_matrix, int v, Paint c){
+		for (int i = 0; i < adj_matrix.length; i++){
+			if (adj_matrix[v][i] == 1) {
+				if (list.get(i).getFill() == c) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	public static void display(String title, String message){
 		window = new Stage();
 		window.setTitle(title);
@@ -185,11 +213,19 @@ public class Fixed_Graph4 {
 		VBox vbox = new VBox(gr1, pane);
 
 		//Adding HINTS button
-		Button buttonhint = new Button("HINTS");
+		Button buttonhint = new Button("HELP");
 		pane.add(buttonhint, 5,0,1,1);
-		buttonhint.setOnAction(e ->  Hint.display("Hint", "Need help?"));
+		buttonhint.setOnAction(e ->  Hint.display("Hint", "Need help?", getNumColors(), getChrNum()));
+		buttonhint.setPrefWidth(80);
+		buttonhint.setPrefHeight(40);
+		buttonhint.setStyle("-fx-background-color: #e6e6e6");
+		buttonhint.setOnMouseEntered(e -> buttonhint.setStyle("-fx-background-color: #2EE59D;"));
+		buttonhint.setOnMouseExited(e -> buttonhint.setStyle("-fx-background-color: #e6e6e6"));
 
-		int[][] multi = new int[][]{
+
+
+
+		multi = new int[][]{
 
 				{ 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
 				{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
@@ -327,9 +363,9 @@ public class Fixed_Graph4 {
 		doTime();
 		gr1.getChildren().addAll(layout);
 
-		num_of_colors = new Paint[6]; //An array to hold the used colors.
+		num_of_colors = new Paint[16]; //An array to hold the used colors.
 		//adding all circles to an array, to calculate the colors used by the user
-		ArrayList<Circle> list = new ArrayList<Circle>();
+		list = new ArrayList<Circle>();
 		list.add(Circle1);
 		list.add(Circle2);
 		list.add(Circle3);
@@ -371,7 +407,7 @@ public class Fixed_Graph4 {
 						text.setFill(Color.RED);
 					}
 
-					else if (mouseEvent.getButton() == MouseButton.SECONDARY){
+					else if (mouseEvent.getButton() == MouseButton.SECONDARY && checkAdj(multi, temp_i, colorPicker.getValue())){
 						list.get(temp_i).setFill(colorPicker.getValue());
 						num_of_colors[temp_i] = list.get(temp_i).getFill();
 						text.setText("\nColors used: " + (getNumColors()));
@@ -390,6 +426,35 @@ public class Fixed_Graph4 {
 				}
 			});
 		}
+		end = new Button("FINISH");
+		end.setPrefWidth(80);
+		end.setPrefHeight(40);
+		end.setOnMousePressed(e -> {
+			lastTime = seconds;
+			if(getNumColors() == getChrNum()) {
+				if(CheckColors(multi)){
+					time.stop();
+					setGameOver();
+					seconds = starttime;
+					window.close();
+				}
+				else{
+					text.setText(" YOU HAVEN'T COLORD EVERY VERTICE");
+					text.setFill(Color.RED);
+				}
+			}
+			else{
+				text.setText("YOU HAVEN'T REACHED THE MINIMUM AMOUNT OF COLORS, TRY AGAIN");
+				text.setFill(Color.RED);
+			}
+		});
+
+
+		end.setStyle("-fx-background-color: #e6e6e6");
+		end.setOnMouseEntered(e -> end.setStyle("-fx-background-color: #2EE59D;"));
+		end.setOnMouseExited(e -> end.setStyle("-fx-background-color: #e6e6e6"));
+
+		pane.add(end, 8,0,1,1);
 		pane.add(text,5,1,1,1);
 
 		scene1 = new Scene(vbox, 900, 800);

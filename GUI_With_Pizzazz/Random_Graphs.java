@@ -181,6 +181,18 @@ public class Random_Graphs {
         window.setTitle(title);
         window.setMinWidth(250);
 
+        //Adding a pane for the elements of the graph
+        Pane pane_graph = new Pane();
+        pane_graph.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        pane_graph.setMinSize(1100, 700);
+        pane_graph.setStyle(
+                "-fx-background-position: center center;"+
+                        "-fx-effect: dropshadow(three-pass-box, grey, 30, 0.2, 0, 0);");
+
+        //Adding a gridpane for the buttons, text and colorpicker.
+        GridPane pane = new GridPane();
+        VBox vbox = new VBox(pane_graph, pane);
+
         //Adding Text to the pane.
         Text text_color = new Text("Pick Your Color." + "\n" + "After that right-click on vertex you'd like to color. ");
         text_color.setFont(Font.font ("Verdana", 14));
@@ -190,29 +202,23 @@ public class Random_Graphs {
         final Text text = new Text("\nColors used: 0");
         text.setText("\nColors used: 0");
         text.setFont(Font.font ("Verdana", 14));
+        pane.add(text,8,1,1,1);
 
-        //Adding a pane for the elements of the graph
-        Pane pane_graph = new Pane();
-        pane_graph.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        pane_graph.setMinSize(1100, 700);
-        pane_graph.setStyle(
-
-//                "-fx-background-image: url('https://en.wikipedia.org/wiki/The_Great_Wave_off_Kanagawa#/media/File:Tsunami_by_hokusai_19th_century.jpg');"+
-                "-fx-background-position: center center;"+
-                "-fx-effect: dropshadow(three-pass-box, grey, 30, 0.2, 0, 0);");
-
-        //Adding a gridpane for the buttons, text and colorpicker.
-        GridPane pane = new GridPane();
-        VBox vbox = new VBox(pane_graph, pane);
-
-        //Adding HINTS button
+        //Adding HELP button
         Button buttonhint = new Button("HELP");
         pane.add(buttonhint, 5,0,1,1);
-        buttonhint.setOnAction(e -> Hint.display("Hint", "Need help?"));
+        buttonhint.setOnAction(e -> Hint_Random.display("Hint", "Need help?"));
+        buttonhint.setPrefWidth(80);
+        buttonhint.setPrefHeight(40);
+        buttonhint.setStyle("-fx-background-color: #e6e6e6");
+        buttonhint.setOnMouseEntered(e -> buttonhint.setStyle("-fx-background-color: #2EE59D;"));
+        buttonhint.setOnMouseExited(e -> buttonhint.setStyle("-fx-background-color: #e6e6e6"));
 
-        // Adding ENTER button for when the user is done with the coloring
-        Button end = new Button("Click when finished");
+        // Adding FINISH button for when the user is done with the coloring
+        Button end = new Button("FINISH");
         pane.add(end, 8,0,1,1);
+        end.setPrefWidth(80);
+        end.setPrefHeight(40);
         end.setOnAction(e -> {
             if(CheckColors(adj)){
                 EndMode.display();
@@ -223,6 +229,9 @@ public class Random_Graphs {
                 text.setFill(Color.RED);
             }
         });
+        end.setStyle("-fx-background-color: #e6e6e6");
+        end.setOnMouseEntered(e -> end.setStyle("-fx-background-color: #2EE59D;"));
+        end.setOnMouseExited(e -> end.setStyle("-fx-background-color: #e6e6e6"));
 
         Label label = new Label();
         label.setText(message);
@@ -233,15 +242,15 @@ public class Random_Graphs {
         for (int d=0; d<adj.length; d++) {
             int random_width = (int)(Math.random()*(width-200));
             int random_height = (int)(Math.random()*(height-200));
-            int z = array_random[d];
-            cir[d] = new Circles(random_width, random_height);
+//            int z = array_random[d];
+            cir[d] = new Circles();
             cir[d].Circle1 = createCircle(random_width, random_height, 15, Color.TRANSPARENT);
-            Text number = new Text(String.valueOf(z));
+            Text number = new Text(String.valueOf(d+1));
             number.xProperty().bind(cir[d].Circle1.centerXProperty());
             number.yProperty().bind(cir[d].Circle1.centerYProperty());
             pane_graph.getChildren().addAll(cir[d].Circle1, number);
             cir[d].Circle1.toFront();
-            number.toFront();
+            number.toBack();
         }
 
         //Connecting the circles
@@ -258,6 +267,11 @@ public class Random_Graphs {
         //Adding "ORDER" button which changes the graph layout to circular
         Button button_layout = new Button("ORDER");
         pane.add(button_layout, 6,0,1,1);
+        button_layout.setPrefWidth(80);
+        button_layout.setPrefHeight(40);
+        button_layout.setStyle("-fx-background-color: #e6e6e6");
+        button_layout.setOnMouseEntered(e -> button_layout.setStyle("-fx-background-color: #2EE59D;"));
+        button_layout.setOnMouseExited(e -> button_layout.setStyle("-fx-background-color: #e6e6e6"));
         button_layout.setOnAction(e ->  {
             // Code for reordering the graph is executed three times for better results of the X and Y coordinates.
             for (int k=0; k<3; k++) {
@@ -268,17 +282,17 @@ public class Random_Graphs {
                 for (int d = 0; d < adj.length; d++) {
                     int x = (int) (cir[d].Circle1.getCenterX() + 230);
                     int y = (int) (cir[d].Circle1.getCenterY());
-                    int z = array_random[d];
+//                    int z = adj[d];
                     cir[d].Circle1.setCenterX(x);
                     cir[d].Circle1.setCenterY(y);
-                    Text number1 = new Text(String.valueOf(z));
+                    Text number1 = new Text(String.valueOf(d+1));
                     number1.xProperty().bind(cir[d].Circle1.centerXProperty());
                     number1.yProperty().bind(cir[d].Circle1.centerYProperty());
                     pane_graph.getChildren().addAll(cir[d].Circle1, number1);
                     cir[d].Circle1.toFront();
-                    number1.toFront();
+                    number1.toBack();
                 }
-                //Connecting the circles for the new layout
+                //Re-connecting the circles for the new layout
                 for (int i = 0; i < adj.length; i++) {
                     for (int j = 0; j < adj[i].length; j++) {
                         if (adj[i][j] == 1) {
@@ -294,6 +308,11 @@ public class Random_Graphs {
         // Adding the color picker
         ColorPicker colorPicker = new ColorPicker();
         colorPicker.setValue(Color.TRANSPARENT);
+        colorPicker.setPrefWidth(200);
+        colorPicker.setPrefHeight(40);
+        colorPicker.setStyle("-fx-background-color: #e6e6e6");
+        colorPicker.setOnMouseEntered(e -> colorPicker.setStyle("-fx-background-color: #2EE59D;"));
+        colorPicker.setOnMouseExited(e -> colorPicker.setStyle("-fx-background-color: #e6e6e6"));
         colorPicker.setOnAction((ActionEvent t) -> {color_holder = colorPicker.getValue();});
         pane.setPadding(new Insets(5, 5, 5, 5));
         pane.add(colorPicker, 0, 0, 1, 1);
@@ -301,7 +320,6 @@ public class Random_Graphs {
 
         //Adding Event Filter to check which circle was clicked
         num_of_colors = new Paint[cir.length]; //An array to hold the used colors.
-
         for (int i=0; i<cir.length; i++){
             final int temp_i = i;
             cir[i].Circle1.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
@@ -314,12 +332,23 @@ public class Random_Graphs {
                         text.setFill(Color.RED);
                     }
                     // If the user right-clicks on a circle, the adjacency method is called to check if it's allowed to color the vertex.
+                    // It also checks if the user is following the right order or not. If not - they are not allowed to color the vertex.
                     else if (mouseEvent.getButton() == MouseButton.SECONDARY && checkAdj(adj, temp_i, colorPicker.getValue())){
-                        if (cir[temp_i].Circle1.getFill() == Color.TRANSPARENT) {
+                        if (temp_i == 0 && cir[0].Circle1.getFill() == Color.TRANSPARENT) {
                             cir[temp_i].Circle1.setFill(colorPicker.getValue());
                             num_of_colors[temp_i] = cir[temp_i].Circle1.getFill();
                             text.setText("\nColors used: " + (getNumColors()));
                             text.setFill(Color.BLACK);
+                        }
+                        else if (cir[temp_i].Circle1.getFill() == Color.TRANSPARENT && cir[temp_i-1].Circle1.getFill() != Color.TRANSPARENT) {
+                            cir[temp_i].Circle1.setFill(colorPicker.getValue());
+                            num_of_colors[temp_i] = cir[temp_i].Circle1.getFill();
+                            text.setText("\nColors used: " + (getNumColors()));
+                            text.setFill(Color.BLACK);
+                        }
+                        else if (cir[temp_i-1].Circle1.getFill() == Color.TRANSPARENT){
+                            text.setText("FOLLOW THE ORDER");
+                            text.setFill(Color.RED);
                         }
                         else {
                             text.setText("ALREADY COLORED");
@@ -339,7 +368,6 @@ public class Random_Graphs {
                 }
             });
         }
-        pane.add(text,8,1,1,1);
 
         // Highlight circles when hovering over then with the mouse
         for (int i=0; i<cir.length; i++) {
