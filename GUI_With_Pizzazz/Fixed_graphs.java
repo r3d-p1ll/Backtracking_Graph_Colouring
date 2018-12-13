@@ -2,7 +2,7 @@ package sample;
 
 public class Fixed_graphs {
 
-    static int n;
+    private static int n;
 
     public static void choose_graph(Integer graph){
         n = graph;

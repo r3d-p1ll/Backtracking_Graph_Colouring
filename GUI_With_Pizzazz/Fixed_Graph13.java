@@ -34,24 +34,24 @@ import java.util.Set;
 
 public class Fixed_Graph13 {
 
-	static Scene scene1;
-	static Stage window;
-	static Stage gameOverWindow;
-	static Label layout;
-	static double orgSceneX, orgSceneY;
-	static final Integer starttime = 0; //edit how long the timer is from here.
-	static Integer seconds = starttime;
-	static Paint[] num_of_colors;
-	static Color color_holder = Color.TRANSPARENT;
-	static Label timeUsed;
-	static Label chromaUsed;
-	static ColorPicker colorPicker;
-	static ArrayList<String> colorList;
-	static Set<String> allColors;
-	static int colorListLength;
+	private static Scene scene1;
+	private static Stage window;
+	private static Stage gameOverWindow;
+	private static Label layout;
+	private static double orgSceneX, orgSceneY;
+	private static final Integer starttime = 0; //edit how long the timer is from here.
+	private static Integer seconds = starttime;
+	private static Paint[] num_of_colors;
+	private static Color color_holder = Color.TRANSPARENT;
+	private static Label timeUsed;
+	private static Label chromaUsed;
+	private static ColorPicker colorPicker;
+	private static ArrayList<String> colorList;
+	private static Set<String> allColors;
+	private static int colorListLength;
 
-	static Integer colorAttached;
-	static Label hintLabel;
+	private static Integer colorAttached;
+	private static Label hintLabel;
 	private static void setGameOver(){
 		gameOverWindow = new Stage();
 		GridPane grid = new GridPane();

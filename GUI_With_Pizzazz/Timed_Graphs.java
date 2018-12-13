@@ -3,7 +3,7 @@ package sample;
 @param choose_graph to enable the option chosen by the user to direct it to the specific graph class
  */
 public class Timed_Graphs {
-    static int n;
+    private static int n;
     /*
     @param graph, the number of graph chosen
      */

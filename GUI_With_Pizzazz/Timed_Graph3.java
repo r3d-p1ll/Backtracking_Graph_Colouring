@@ -45,26 +45,25 @@ and to create a game with graph3
  */
 public class Timed_Graph3 {
 
-    static Scene scene1;
-    static Stage window;
-    static Stage gameOverWindow;
-    static Label layout;
-    static double orgSceneX, orgSceneY;
-    static final Integer starttime = 30; //edit how long the timer is from here.
-    static Integer seconds = starttime;
-    static Paint[] num_of_colors;
-    static Color color_holder = Color.WHITE;
-    static Label timeUsed;
-    static Label chromaUsed;
-    static ColorPicker colorPicker;
-    static Color colorBeingUsed = Color.WHITE;
-    static int colorCounter;
-    static ArrayList<String> colorList;
-    static Set<String> allColors;
-    static int colorListLength;
+    private static Scene scene1;
+    private static Stage window;
+    private static Stage gameOverWindow;
+    private static Label layout;
+    private static double orgSceneX, orgSceneY;
+    private static final Integer starttime = 30; //edit how long the timer is from here.
+    private static Integer seconds = starttime;
+    private static Paint[] num_of_colors;
+    private static Color color_holder = Color.WHITE;
+    private static Label timeUsed;
+    private static Label chromaUsed;
+    private static ColorPicker colorPicker;
+    private static Color colorBeingUsed = Color.WHITE;
+    private static int colorCounter;
+    private static ArrayList<String> colorList;
+    private static Set<String> allColors;
+    private static int colorListLength;
 
     //hint
-    static Integer colorAttached;
     static Label hintLabel;
 
     /**@method setGameOver() is called when doTime is 0 and displays a new window.
@@ -153,18 +152,6 @@ public class Timed_Graph3 {
         orgSceneY = t.getSceneY();
     };
 
-    /*createCircle() creates a circle object with (x,y), the radius and the color
-    @param x starting coordinate of x-axis of the circle
-    @param y starting coordinate of y-axis of the circle
-    @param r the radius of the circle to be drawn
-    @param color Color of the circle
-     */
-    public static void setColorAttached(Integer colorAttached) {
-        Timed_Graph2.colorAttached = colorAttached;
-    }
-    public static Integer getColorAttached() {
-        return colorAttached;
-    }
     /**createCircle() creates a circle object with (x,y), the radius and the color
      *@param x starting coordinate of x-axis of the circle
      *@param y starting coordinate of y-axis of the circle
