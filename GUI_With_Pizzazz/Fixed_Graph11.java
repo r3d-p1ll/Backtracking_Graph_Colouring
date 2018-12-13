@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Fixed_Graph7 {
+public class Fixed_Graph11 {
 
 	static Scene scene1;
 	static Stage window;
@@ -189,52 +189,90 @@ public class Fixed_Graph7 {
 		buttonhint.setOnAction(e ->  Hint.display("Hint", "Need help?"));
 
 		int[][] multi = new int[][]{
-				{ 0, 1, 0, 1, 1, 0, 1, 0, 0 },
-				{ 1, 0, 1, 1, 1, 1, 1, 1, 0 },
-				{ 0, 1, 0, 1, 0, 1, 0, 1, 0 },
-				{ 1, 1, 1, 0, 0, 0, 1, 1, 0 },
-				{ 1, 1, 0, 0, 0, 0, 1, 1, 1 },
-				{ 0, 1, 1, 0, 0, 0, 1, 1, 1 },
-				{ 1, 1, 0, 1, 1, 1, 0, 1, 1 },
-				{ 0, 1, 1, 1, 1, 1, 1, 0, 1 },
-				{ 0, 0, 0, 0, 1, 1, 1, 1, 0 },
+				{0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+				{1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+				{0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0},
+				{1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0},
+				{1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0},
+				{1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1},
+				{1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0},
+				{1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1},
+				{0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1},
+				{0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0},
+				{0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1},
+				{0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0},
+				{0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1},
+				{0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0},
+				{0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1},
+				{0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0},
 		};
 
-		Circle Circle1 = createCircle(145, 85, 15, Color.WHITE,1);
-		Circle Circle2 = createCircle(389, 85, 15, Color.WHITE,1);
-		Circle Circle3 = createCircle(660, 85, 15, Color.WHITE,1);
-		Circle Circle4 = createCircle(389, 193, 15, Color.WHITE,1);
-		Circle Circle5 = createCircle(337, 286, 15, Color.WHITE,1);
-		Circle Circle6 = createCircle(440, 286, 15, Color.WHITE,1);
-		Circle Circle7 = createCircle(235, 352, 15, Color.WHITE,1);
-		Circle Circle8 = createCircle(543, 352, 15, Color.WHITE,1);
-		Circle Circle9 = createCircle(389, 554, 15, Color.WHITE,1);
+		Circle Circle1 = createCircle(94, 23, 15, Color.WHITE,1);
+		Circle Circle2 = createCircle(94, 551, 15, Color.WHITE,1);
+		Circle Circle3 = createCircle(653, 551, 15, Color.WHITE,1);
+		Circle Circle4 = createCircle(653, 23, 15, Color.WHITE,1);
+		Circle Circle5 = createCircle(373, 99, 15, Color.WHITE,1);
+		Circle Circle6 = createCircle(373, 155, 15, Color.WHITE,1);
+		Circle Circle7 = createCircle(173, 287, 15, Color.WHITE,1);
+		Circle Circle8 = createCircle(235, 287, 15, Color.WHITE,1);
+		Circle Circle9 = createCircle(373, 476, 15, Color.WHITE,1);
+		Circle Circle10 = createCircle(373, 419, 15, Color.WHITE,1);
+		Circle Circle11 = createCircle(573, 287, 15, Color.WHITE,1);
+		Circle Circle12 = createCircle(511, 287, 15, Color.WHITE,1);
+		Circle Circle13 = createCircle(435, 230, 15, Color.WHITE,1);
+		Circle Circle14 = createCircle(314, 230, 15, Color.WHITE,1);
+		Circle Circle15 = createCircle(314, 343, 15, Color.WHITE,1);
+		Circle Circle16 = createCircle(435, 343, 15, Color.WHITE,1);
 
 
 		Line line1 = connect(Circle1, Circle2);
 		Line line2 = connect(Circle2, Circle3);
-		Line line3 = connect(Circle3, Circle8);
-		Line line4 = connect(Circle8, Circle9);
-		Line line5 = connect(Circle9, Circle7);
-		Line line6 = connect(Circle7, Circle1);
-		Line line7 = connect(Circle2, Circle4);
-		Line line8 = connect(Circle4, Circle1);
-		Line line9 = connect(Circle4, Circle3);
-		Line line10 = connect(Circle2, Circle7);
-		Line line11 = connect(Circle7, Circle8);
-		Line line12 = connect(Circle8, Circle2);
-		Line line13 = connect(Circle1, Circle5);
-		Line line14 = connect(Circle5, Circle8);
-		Line line15 = connect(Circle5, Circle7);
-		Line line16 = connect(Circle6, Circle8);
-		Line line17 = connect(Circle4, Circle8);
-		Line line18 = connect(Circle7, Circle6);
-		Line line19 = connect(Circle6, Circle3);
-		Line line20 = connect(Circle7, Circle4);
-		Line line21 = connect(Circle9, Circle5);
-		Line line22 = connect(Circle9, Circle6);
-		Line line23 = connect(Circle2, Circle5);
-		Line line24 = connect(Circle2, Circle6);
+		Line line3 = connect(Circle3, Circle4);
+		Line line4 = connect(Circle4, Circle1);
+		Line line5 = connect(Circle6, Circle7);
+		Line line6 = connect(Circle7, Circle10);
+		Line line7 = connect(Circle10, Circle11);
+		Line line8 = connect(Circle11, Circle6);
+		Line line9 = connect(Circle5, Circle8);
+		Line line10 = connect(Circle8, Circle9);
+		Line line11 = connect(Circle9, Circle12);
+		Line line12 = connect(Circle12, Circle5);
+		Line line13 = connect(Circle13, Circle14);
+		Line line14 = connect(Circle14, Circle15);
+		Line line15 = connect(Circle15, Circle16);
+		Line line16 = connect(Circle16, Circle13);
+		Line line17 = connect(Circle1, Circle5);
+		Line line18 = connect(Circle5, Circle4);
+		Line line19 = connect(Circle1, Circle6);
+		Line line20 = connect(Circle6, Circle4);
+		Line line21 = connect(Circle3, Circle11);
+		Line line22 = connect(Circle11, Circle4);
+		Line line23 = connect(Circle3, Circle12);
+		Line line24 = connect(Circle12, Circle4);
+		Line line25 = connect(Circle2, Circle9);
+		Line line26 = connect(Circle9, Circle3);
+		Line line27 = connect(Circle2, Circle10);
+		Line line28 = connect(Circle10, Circle3);
+		Line line29 = connect(Circle1, Circle7);
+		Line line30 = connect(Circle7, Circle2);
+		Line line31 = connect(Circle1, Circle8);
+		Line line32 = connect(Circle8, Circle2);
+		Line line33 = connect(Circle13, Circle5);
+		Line line34 = connect(Circle5, Circle14);
+		Line line35 = connect(Circle14, Circle7);
+		Line line36 = connect(Circle7, Circle15);
+		Line line37 = connect(Circle15, Circle9);
+		Line line38 = connect(Circle9, Circle16);
+		Line line39 = connect(Circle16, Circle11);
+		Line line40 = connect(Circle11, Circle13);
+		Line line41 = connect(Circle14, Circle12);
+		Line line42 = connect(Circle12, Circle15);
+		Line line43 = connect(Circle15, Circle6);
+		Line line44 = connect(Circle6, Circle16);
+		Line line45 = connect(Circle16, Circle8);
+		Line line46 = connect(Circle8, Circle13);
+		Line line47 = connect(Circle13, Circle10);
+		Line line48 = connect(Circle10, Circle14);
 
 
 		//add the circles
@@ -247,6 +285,13 @@ public class Fixed_Graph7 {
 		gr1.getChildren().add(Circle7);
 		gr1.getChildren().add(Circle8);
 		gr1.getChildren().add(Circle9);
+		gr1.getChildren().add(Circle10);
+		gr1.getChildren().add(Circle11);
+		gr1.getChildren().add(Circle12);
+		gr1.getChildren().add(Circle13);
+		gr1.getChildren().add(Circle14);
+		gr1.getChildren().add(Circle15);
+		gr1.getChildren().add(Circle16);
 
 		// add the lines
 		gr1.getChildren().add(line1);
@@ -273,6 +318,30 @@ public class Fixed_Graph7 {
 		gr1.getChildren().add(line22);
 		gr1.getChildren().add(line23);
 		gr1.getChildren().add(line24);
+		gr1.getChildren().add(line25);
+		gr1.getChildren().add(line26);
+		gr1.getChildren().add(line27);
+		gr1.getChildren().add(line28);
+		gr1.getChildren().add(line29);
+		gr1.getChildren().add(line30);
+		gr1.getChildren().add(line31);
+		gr1.getChildren().add(line32);
+		gr1.getChildren().add(line33);
+		gr1.getChildren().add(line34);
+		gr1.getChildren().add(line35);
+		gr1.getChildren().add(line36);
+		gr1.getChildren().add(line37);
+		gr1.getChildren().add(line38);
+		gr1.getChildren().add(line39);
+		gr1.getChildren().add(line40);
+		gr1.getChildren().add(line41);
+		gr1.getChildren().add(line42);
+		gr1.getChildren().add(line43);
+		gr1.getChildren().add(line44);
+		gr1.getChildren().add(line45);
+		gr1.getChildren().add(line46);
+		gr1.getChildren().add(line47);
+		gr1.getChildren().add(line48);
 
 		// bring the circles to the front of the lines
 		Circle1.toFront();
@@ -284,6 +353,13 @@ public class Fixed_Graph7 {
 		Circle7.toFront();
 		Circle8.toFront();
 		Circle9.toFront();
+		Circle10.toFront();
+		Circle11.toFront();
+		Circle12.toFront();
+		Circle13.toFront();
+		Circle14.toFront();
+		Circle15.toFront();
+		Circle16.toFront();
 
 		//for the timer
 		layout = new Label();
@@ -303,6 +379,13 @@ public class Fixed_Graph7 {
 		list.add(Circle7);
 		list.add(Circle8);
 		list.add(Circle9);
+		list.add(Circle10);
+		list.add(Circle11);
+		list.add(Circle12);
+		list.add(Circle13);
+		list.add(Circle14);
+		list.add(Circle15);
+		list.add(Circle16);
 
 		// ADDING THE COLOR PICKER
 		colorPicker = new ColorPicker();
