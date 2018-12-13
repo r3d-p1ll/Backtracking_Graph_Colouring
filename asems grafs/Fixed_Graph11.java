@@ -48,6 +48,11 @@ public class Fixed_Graph11 {
 	static ArrayList<String> colorList;
 	static Set<String> allColors;
 	static int colorListLength;
+	private final static int chrNum = 4;
+
+	public static int getChrNum(){
+		return chrNum;
+	}
 
 	private static void setGameOver(){
 		gameOverWindow = new Stage();
@@ -170,7 +175,7 @@ public class Fixed_Graph11 {
 		//Adding HINTS button
 		Button buttonhint = new Button("HINTS");
 		pane.add(buttonhint, 5,0,1,1);
-		buttonhint.setOnAction(e ->  Hint.display("Hint", "Need help?"));
+		buttonhint.setOnAction(e ->  Hint.display("Hint", "Need help?", getNumColors(), getChrNum()));
 
 		int[][] multi = new int[][]{
 				{0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
