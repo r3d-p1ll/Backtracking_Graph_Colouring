@@ -48,7 +48,7 @@ public class Timed_Graph5 {
     private static Stage gameOverWindow;
     private static Label layout;
     private static double orgSceneX, orgSceneY;
-    private static final Integer starttime = 10;
+    private static final Integer starttime = 20;
     private static Integer seconds = starttime;
     private static Paint[] num_of_colors;
     private static Color color_holder = Color.TRANSPARENT;
@@ -60,8 +60,12 @@ public class Timed_Graph5 {
     private static int colorListLength;
     private static int chromaticNumber = 3;
     private static String comparision;
-
-    int[][] adj_matrix = new int[][]{
+    private static Label hintLabel;
+    private static Text text2;
+    private static Button end;
+    private static int lastTime;
+    private static ArrayList<Circle> list;
+    private static int[][] adj_matrix = new int[][]{
             {0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -148,6 +152,21 @@ public class Timed_Graph5 {
         gameOverWindow.setMinHeight(100);
         gameOverWindow.setScene(gameOverScene);
         gameOverWindow.show();
+    }
+
+    /**
+     * checks if the colors are colored to adjacency vertices
+     * @param adj adjacency matrix
+     * @return true or false
+     */
+    public static boolean CheckColors(int adj [][]){
+        boolean seen = true;
+        for (int d=0; d<adj.length; d++){
+            if(list.get(d).getFill().equals(Color.TRANSPARENT)){
+                seen = false;
+            }
+        }
+        return seen;
     }
 
     /**
@@ -305,13 +324,14 @@ public class Timed_Graph5 {
 
     /**
      * createCircle() creates a circle object with (x,y), the radius and the color
-     * @param x
-     * @param y
-     * @param r
-     * @param color
-     * @return
+     * @param x starting pint of x-axis
+     * @param y starting point of y-axis
+     * @param r radius of the circle
+     * @param color color of the circle
+     * @param colorAttached number of colors that can be colored around a certain vertex
+     * @return the circle drawn
      */
-    private static Circle createCircle(double x, double y, double r, Color color)
+    private static Circle createCircle(double x, double y, double r, Color color, Integer colorAttached)
     {
         Circle circle = new Circle(x, y, r, color);
         circle.setStrokeWidth(2);
@@ -319,8 +339,29 @@ public class Timed_Graph5 {
         circle.setFill(Color.TRANSPARENT);
 
         circle.setCursor(Cursor.CROSSHAIR);
+        //change this and delete the EventMethod that you just deleted.
+        circle.setOnMousePressed((t) ->
+        {
+            orgSceneX = t.getSceneX();
+            orgSceneY = t.getSceneY();
 
-        circle.setOnMousePressed(mousePressedEventHandler);
+            Circle c = (Circle) (t.getSource());
+            c.toFront();
+
+            if(t.getClickCount() == 2) {
+                Stage hintWindow = new Stage();
+                VBox hint = new VBox();
+                Label hintExplain = new Label("Colors surrounding this vertice:");
+                hintLabel = new Label();
+                hintLabel.setText(Integer.toString(colorAttached));
+                hintLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 18;");
+                hint.setAlignment(Pos.CENTER);
+                hint.getChildren().addAll(hintExplain,hintLabel);
+                Scene hintScene = new Scene(hint);
+                hintWindow.setScene(hintScene);
+                hintWindow.showAndWait();
+            }
+        });
         circle.setOnMouseDragged(mouseDraggedEventHandler);
 
         return circle;
@@ -403,59 +444,59 @@ public class Timed_Graph5 {
         /*
          * create circle objects
          */
-        Circle Circle1 = createCircle(150, 170, 15, Color.TRANSPARENT);
-        Circle Circle2 = createCircle(220, 170, 15, Color.TRANSPARENT);
-        Circle Circle3 = createCircle(220, 235, 15, Color.TRANSPARENT);
-        Circle Circle4 = createCircle(150, 235, 15, Color.TRANSPARENT);
-        Circle Circle5 = createCircle(290, 235, 15, Color.TRANSPARENT);
-        Circle Circle6 = createCircle(290, 295, 15, Color.TRANSPARENT);
-        Circle Circle7 = createCircle(220, 295, 15, Color.TRANSPARENT);
-        Circle Circle8 = createCircle(360, 295, 15, Color.TRANSPARENT);
-        Circle Circle9 = createCircle(360, 355, 15, Color.TRANSPARENT);
-        Circle Circle10 = createCircle(290, 355, 15, Color.TRANSPARENT);
-        Circle Circle11 = createCircle(430, 355, 15, Color.TRANSPARENT);
-        Circle Circle12 = createCircle(430, 415, 15, Color.TRANSPARENT);
-        Circle Circle13 = createCircle(360, 415, 15, Color.TRANSPARENT);
-        Circle Circle14 = createCircle(500, 415, 15, Color.TRANSPARENT);
-        Circle Circle15 = createCircle(500, 470, 15, Color.TRANSPARENT);
-        Circle Circle16 = createCircle(430, 470, 15, Color.TRANSPARENT);
-        Circle Circle17 = createCircle(570, 470, 15, Color.TRANSPARENT);
-        Circle Circle18 = createCircle(570, 530, 15, Color.TRANSPARENT);
-        Circle Circle19 = createCircle(500, 530, 15, Color.TRANSPARENT);
-        Circle Circle20 = createCircle(640, 530, 15, Color.TRANSPARENT);
-        Circle Circle21 = createCircle(640, 590, 15, Color.TRANSPARENT);
-        Circle Circle22 = createCircle(570, 590, 15, Color.TRANSPARENT);
-        Circle Circle23 = createCircle(710, 590, 15, Color.TRANSPARENT);
-        Circle Circle24 = createCircle(710, 650, 15, Color.TRANSPARENT);
-        Circle Circle25 = createCircle(640, 650, 15, Color.TRANSPARENT);
-        Circle Circle26 = createCircle(70, 170, 15, Color.TRANSPARENT);
-        Circle Circle27 = createCircle(95, 120, 15, Color.TRANSPARENT);
-        Circle Circle28 = createCircle(150, 105, 15, Color.TRANSPARENT);
-        Circle Circle29 = createCircle(220, 105, 15, Color.TRANSPARENT);
-        Circle Circle30 = createCircle(70, 235, 15, Color.TRANSPARENT);
-        Circle Circle31 = createCircle(360, 235, 15, Color.TRANSPARENT);
-        Circle Circle32 = createCircle(360, 170, 15, Color.TRANSPARENT);
-        Circle Circle33 = createCircle(220, 355, 15, Color.TRANSPARENT);
-        Circle Circle34 = createCircle(150, 355, 15, Color.TRANSPARENT);
-        Circle Circle35 = createCircle(430, 295, 15, Color.TRANSPARENT);
-        Circle Circle36 = createCircle(430, 235, 15, Color.TRANSPARENT);
-        Circle Circle37 = createCircle(290, 415, 15, Color.TRANSPARENT);
-        Circle Circle38 = createCircle(220, 415, 15, Color.TRANSPARENT);
-        Circle Circle39 = createCircle(500, 355, 15, Color.TRANSPARENT);
-        Circle Circle40 = createCircle(360, 470, 15, Color.TRANSPARENT);
-        Circle Circle41 = createCircle(570, 415, 15, Color.TRANSPARENT);
-        Circle Circle42 = createCircle(640, 415, 15, Color.TRANSPARENT);
-        Circle Circle43 = createCircle(430, 530, 15, Color.TRANSPARENT);
-        Circle Circle44 = createCircle(430, 590, 15, Color.TRANSPARENT);
-        Circle Circle45 = createCircle(640, 470, 15, Color.TRANSPARENT);
-        Circle Circle46 = createCircle(710, 470, 15, Color.TRANSPARENT);
-        Circle Circle47 = createCircle(500, 590, 15, Color.TRANSPARENT);
-        Circle Circle48 = createCircle(500, 650, 15, Color.TRANSPARENT);
-        Circle Circle49 = createCircle(780, 590, 15, Color.TRANSPARENT);
-        Circle Circle50 = createCircle(780, 650, 15, Color.TRANSPARENT);
-        Circle Circle51 = createCircle(765, 695, 15, Color.TRANSPARENT);
-        Circle Circle52 = createCircle(710, 710, 15, Color.TRANSPARENT);
-        Circle Circle53 = createCircle(640, 710, 15, Color.TRANSPARENT);
+        Circle Circle1 = createCircle(150, 170, 15, Color.TRANSPARENT,2);
+        Circle Circle2 = createCircle(220, 170, 15, Color.TRANSPARENT,2);
+        Circle Circle3 = createCircle(220, 235, 15, Color.TRANSPARENT,2);
+        Circle Circle4 = createCircle(150, 235, 15, Color.TRANSPARENT,2);
+        Circle Circle5 = createCircle(290, 235, 15, Color.TRANSPARENT,2);
+        Circle Circle6 = createCircle(290, 295, 15, Color.TRANSPARENT,2);
+        Circle Circle7 = createCircle(220, 295, 15, Color.TRANSPARENT,3);
+        Circle Circle8 = createCircle(360, 295, 15, Color.TRANSPARENT,2);
+        Circle Circle9 = createCircle(360, 355, 15, Color.TRANSPARENT,2);
+        Circle Circle10 = createCircle(290, 355, 15, Color.TRANSPARENT,2);
+        Circle Circle11 = createCircle(430, 355, 15, Color.TRANSPARENT,3);
+        Circle Circle12 = createCircle(430, 415, 15, Color.TRANSPARENT,2);
+        Circle Circle13 = createCircle(360, 415, 15, Color.TRANSPARENT,2);
+        Circle Circle14 = createCircle(500, 415, 15, Color.TRANSPARENT,2);
+        Circle Circle15 = createCircle(500, 470, 15, Color.TRANSPARENT,2);
+        Circle Circle16 = createCircle(430, 470, 15, Color.TRANSPARENT,3);
+        Circle Circle17 = createCircle(570, 470, 15, Color.TRANSPARENT,2);
+        Circle Circle18 = createCircle(570, 530, 15, Color.TRANSPARENT,2);
+        Circle Circle19 = createCircle(500, 530, 15, Color.TRANSPARENT,2);
+        Circle Circle20 = createCircle(640, 530, 15, Color.TRANSPARENT,3);
+        Circle Circle21 = createCircle(640, 590, 15, Color.TRANSPARENT,3);
+        Circle Circle22 = createCircle(570, 590, 15, Color.TRANSPARENT,2);
+        Circle Circle23 = createCircle(710, 590, 15, Color.TRANSPARENT,2);
+        Circle Circle24 = createCircle(710, 650, 15, Color.TRANSPARENT,2);
+        Circle Circle25 = createCircle(640, 650, 15, Color.TRANSPARENT,2);
+        Circle Circle26 = createCircle(70, 170, 15, Color.TRANSPARENT,2);
+        Circle Circle27 = createCircle(95, 120, 15, Color.TRANSPARENT,2);
+        Circle Circle28 = createCircle(150, 105, 15, Color.TRANSPARENT,2);
+        Circle Circle29 = createCircle(220, 105, 15, Color.TRANSPARENT,2);
+        Circle Circle30 = createCircle(70, 235, 15, Color.TRANSPARENT,2);
+        Circle Circle31 = createCircle(360, 235, 15, Color.TRANSPARENT,2);
+        Circle Circle32 = createCircle(360, 170, 15, Color.TRANSPARENT,2);
+        Circle Circle33 = createCircle(220, 355, 15, Color.TRANSPARENT,2);
+        Circle Circle34 = createCircle(150, 355, 15, Color.TRANSPARENT,2);
+        Circle Circle35 = createCircle(430, 295, 15, Color.TRANSPARENT,3);
+        Circle Circle36 = createCircle(430, 235, 15, Color.TRANSPARENT,2);
+        Circle Circle37 = createCircle(290, 415, 15, Color.TRANSPARENT,2);
+        Circle Circle38 = createCircle(220, 415, 15, Color.TRANSPARENT,2);
+        Circle Circle39 = createCircle(500, 355, 15, Color.TRANSPARENT,2);
+        Circle Circle40 = createCircle(360, 470, 15, Color.TRANSPARENT,2);
+        Circle Circle41 = createCircle(570, 415, 15, Color.TRANSPARENT,2);
+        Circle Circle42 = createCircle(640, 415, 15, Color.TRANSPARENT,2);
+        Circle Circle43 = createCircle(430, 530, 15, Color.TRANSPARENT,2);
+        Circle Circle44 = createCircle(430, 590, 15, Color.TRANSPARENT,2);
+        Circle Circle45 = createCircle(640, 470, 15, Color.TRANSPARENT,2);
+        Circle Circle46 = createCircle(710, 470, 15, Color.TRANSPARENT,2);
+        Circle Circle47 = createCircle(500, 590, 15, Color.TRANSPARENT,2);
+        Circle Circle48 = createCircle(500, 650, 15, Color.TRANSPARENT,2);
+        Circle Circle49 = createCircle(780, 590, 15, Color.TRANSPARENT,2);
+        Circle Circle50 = createCircle(780, 650, 15, Color.TRANSPARENT,2);
+        Circle Circle51 = createCircle(765, 695, 15, Color.TRANSPARENT,2);
+        Circle Circle52 = createCircle(710, 710, 15, Color.TRANSPARENT,3);
+        Circle Circle53 = createCircle(640, 710, 15, Color.TRANSPARENT,2);
 
         /*connet specified circles with lines
          *
