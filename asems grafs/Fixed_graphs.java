@@ -1,9 +1,16 @@
 package sample;
 
+/**
+ * class that loads the graph for the player based on what the user inputs into the choice box when loading up the game
+ */
 public class Fixed_graphs {
 
     static int n;
 
+    /**
+     * creates a sample of the graph to show the player based on the entries in the choice box
+     * @param graph is the graph that has been chosen
+     */
     public static void choose_graph(Integer graph){
         n = graph;
         if(n == 1){
@@ -36,9 +43,6 @@ public class Fixed_graphs {
             sample.Fixed_Graph14.display("Fixed Graph 14", "GoodLuck!");}
         if(n == 15){
             sample.Fixed_Graph15.display("Fixed Graph 15", "GoodLuck!");}
-
-
-
     }
 
 }

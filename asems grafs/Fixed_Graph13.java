@@ -30,7 +30,14 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
+/**
+ *  class Fixed_Graph1 to display a graph, by circles and lines,
+ *  increment the time from zero to count how long it took to finish the graph,
+ *  count the number of colors used by the player so far,
+ *  compare that color to the actual chromatic color that is recorded in the code,
+ *  display game-over window once the graph is colored correctly and the game is over,
+ *  and to create a game with graph1
+ */
 public class Fixed_Graph13 {
 
 	static Scene scene1;
@@ -49,27 +56,42 @@ public class Fixed_Graph13 {
 	static Set<String> allColors;
 	static int colorListLength;
 	private final static int chrNum = 3;
+	static ArrayList<Circle> list;
+	static Text text2;
+	static Button end;
+	static int lastTime;
+	private static Timeline time;
+	static int[][] multi;
+
+	/**
+	 * getter method for the chromatic color of the graph, for hint and comparison purposes
+	 * @return the chromatic color
+	 */
 
 	public static int getChrNum(){
 		return chrNum;
 	}
 
+	/**
+	 * Game over screen method.
+	 * setGameOver() keeps record of the time and once the chromatic number is reached or the time is over, shows the gameover window
+	 */
 	private static void setGameOver(){
 		gameOverWindow = new Stage();
 		GridPane grid = new GridPane();
-		gameOverWindow.setTitle("Time's up!");
-		timeUsed = new Label("Time left: ");
+		gameOverWindow.setTitle("Good job");
+		timeUsed = new Label("It took you: " +  lastTime + " seconds");
 		GridPane.setConstraints(timeUsed,2,2);
-		Label realChroma = new Label("Chromatic number: 4");
-		chromaUsed = new Label("Chromatic reached:   " + getNumColors());
-		GridPane.setConstraints(chromaUsed, 2,4);
-		GridPane.setConstraints(realChroma, 2, 3);
-		grid.getChildren().addAll(timeUsed, realChroma, chromaUsed);
-		Scene gameOverScene = new Scene(grid);
+
+		grid.getChildren().addAll(timeUsed);
+		Scene gameOverScene = new Scene(grid, 250, 150);
 		gameOverWindow.setScene(gameOverScene);
 		gameOverWindow.show();
 	}
 
+	/**
+	 * doTime() method that starts counting when the graph is loaded
+	 */
 	private static void doTime() {
 		Timeline time = new Timeline();
 		KeyFrame frame = new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
@@ -97,6 +119,9 @@ public class Fixed_Graph13 {
 		time.play();
 	}
 
+	/**
+	 * mouse click listener that specifies the action when the mouse button is pressed
+	 */
 	private static EventHandler<MouseEvent> mousePressedEventHandler = (t) ->
 	{
 		orgSceneX = t.getSceneX();
@@ -105,6 +130,9 @@ public class Fixed_Graph13 {
 		c.toFront();
 	};
 
+	/**
+	 * mouse drag listener that allows the player to drag the vertices
+	 */
 	private static EventHandler<MouseEvent> mouseDraggedEventHandler = (t) ->
 	{
 		double offsetX = t.getSceneX() - orgSceneX;
@@ -116,6 +144,14 @@ public class Fixed_Graph13 {
 		orgSceneY = t.getSceneY();
 	};
 
+	/**
+	 * createCircle() method that creates a circle object
+	 * @param x is the x-coordinate of the centre of the circle
+	 * @param y is the y-coordinate of the centre of the circle
+	 * @param r is the radius of the circle
+	 * @param color is the color of the circle
+	 * @return the created circle object
+	 */
 	private static Circle createCircle(double x, double y, double r, Color color)
 	{
 		Circle circle = new Circle(x, y, r, color);
@@ -130,6 +166,12 @@ public class Fixed_Graph13 {
 		return circle;
 	}
 
+	/**
+	 * connect method that connects two circles to each other by a line
+	 * @param c1 the first circle to be connected
+	 * @param c2 the second circle to be connected
+	 * @return the line that connects the two vertices together
+	 */
 	private static Line connect(Circle c1, Circle c2)
 	{
 		Line line = new Line();
@@ -144,6 +186,10 @@ public class Fixed_Graph13 {
 		return line;
 	}
 
+	/**
+	 * method that count the numbers of colors used by the player so far for comparison/hinting purposes
+	 * @return the number of colors recorded
+	 */
 	public static int getNumColors() {
 		Set<Paint> newset = new HashSet<Paint>();
 		for (int i=0; i < num_of_colors.length; i++) {
@@ -157,7 +203,43 @@ public class Fixed_Graph13 {
 
 		return newset.size()-1;
 	}
+	/**
+	 * checks if every vertex has been colored
+	 * @param adj is the adjacency matrix for the graph
+	 * @return
+	 */
+	public static boolean CheckColors(int adj [][]){
+		boolean seen = true;
+		for (int d=0; d<adj.length; d++){
+			if(list.get(d).getFill().equals(Color.TRANSPARENT)){
+				seen = false;
+			}
+		}
+		return seen;
+	}
+	/**
+	 * checks if the two vertices are connected to each other
+	 * @param adj_matrix is the adjacency matrix of the graph
+	 * @param v is the vertex
+	 * @param c is the color
+	 * @return whether the two vertices are connected to each other
+	 */
+	public static boolean checkAdj(int [][] adj_matrix, int v, Paint c){
+		for (int i = 0; i < adj_matrix.length; i++){
+			if (adj_matrix[v][i] == 1) {
+				if (list.get(i).getFill() == c) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 
+	/**
+	 * display method that displays? the graph in a window
+	 * @param title of the screen
+	 * @param message?
+	 */
 	public static void display(String title, String message){
 		window = new Stage();
 		window.setTitle(title);
@@ -177,6 +259,7 @@ public class Fixed_Graph13 {
 		pane.add(buttonhint, 5,0,1,1);
 		buttonhint.setOnAction(e ->  Hint.display("Hint", "Need help?", getNumColors(), getChrNum()));
 
+		//this is the adjacency matrix for the graph
 		int[][] multi = new int[][]{
 				{0, 1, 1, 1, 0, 0, 1, 0, 0},
 				{1, 0, 1, 0, 0, 0, 1, 0, 1},
@@ -188,7 +271,7 @@ public class Fixed_Graph13 {
 				{0, 0, 1, 1, 0, 1, 1, 0, 0},
 				{0, 1, 0, 1, 1, 0, 1, 0, 0},
 		};
-
+		//creating the circles
 		Circle Circle1 = createCircle(263, 64, 15, Color.WHITE);
 		Circle Circle2 = createCircle(145, 233, 15, Color.WHITE);
 		Circle Circle3 = createCircle(145, 487, 15, Color.WHITE);
@@ -199,7 +282,7 @@ public class Fixed_Graph13 {
 		Circle Circle8 = createCircle(263, 361, 15, Color.WHITE);
 		Circle Circle9 = createCircle(498, 361, 15, Color.WHITE);
 
-
+		//creating the lines that connect the circles
 		Line line1 = connect(Circle1, Circle2);
 		Line line2 = connect(Circle2, Circle3);
 		Line line3 = connect(Circle3, Circle8);
@@ -220,7 +303,7 @@ public class Fixed_Graph13 {
 		Line line18 = connect(Circle2, Circle7);
 		Line line19 = connect(Circle3, Circle4);
 
-		//add the circles
+		//adding the circles to the pane
 		gr1.getChildren().add(Circle1);
 		gr1.getChildren().add(Circle2);
 		gr1.getChildren().add(Circle3);
@@ -231,7 +314,7 @@ public class Fixed_Graph13 {
 		gr1.getChildren().add(Circle8);
 		gr1.getChildren().add(Circle9);
 
-		// add the lines
+		//adding the lines to the pane as well
 		gr1.getChildren().add(line1);
 		gr1.getChildren().add(line2);
 		gr1.getChildren().add(line3);
@@ -252,7 +335,7 @@ public class Fixed_Graph13 {
 		gr1.getChildren().add(line18);
 		gr1.getChildren().add(line19);
 
-		// bring the circles to the front of the lines
+		//bringing the circles to the front of the lines
 		Circle1.toFront();
 		Circle2.toFront();
 		Circle3.toFront();
@@ -269,9 +352,9 @@ public class Fixed_Graph13 {
 		doTime();
 		gr1.getChildren().addAll(layout);
 
-		num_of_colors = new Paint[6]; //An array to hold the used colors.
+		num_of_colors = new Paint[9]; //An array to hold the used colors.
 		//adding all circles to an array, to calculate the colors used by the user
-		ArrayList<Circle> list = new ArrayList<Circle>();
+		list = new ArrayList<Circle>();
 		list.add(Circle1);
 		list.add(Circle2);
 		list.add(Circle3);
@@ -293,6 +376,7 @@ public class Fixed_Graph13 {
 		pane.add(colorPicker, 0, 0, 1, 1);
 		pane.add(text_color,0,1,1,1);
 
+		//how many colors the user has used so far
 		final Text text = new Text("\nColors used: 0");
 		text.setFont(Font.font ("Verdana", 14));
 		for (int i=0; i<list.size(); i++){
@@ -306,7 +390,7 @@ public class Fixed_Graph13 {
 						text.setFill(Color.RED);
 					}
 
-					else if (mouseEvent.getButton() == MouseButton.SECONDARY){
+					else if (mouseEvent.getButton() == MouseButton.SECONDARY && checkAdj(multi, temp_i, colorPicker.getValue())){
 						list.get(temp_i).setFill(colorPicker.getValue());
 						num_of_colors[temp_i] = list.get(temp_i).getFill();
 						text.setText("\nColors used: " + (getNumColors()));
@@ -325,6 +409,42 @@ public class Fixed_Graph13 {
 				}
 			});
 		}
+		//finish button for when the user is finished coloring the graph
+		end = new Button("FINISH");
+		end.setPrefWidth(80);
+		end.setPrefHeight(40);
+		end.setOnMousePressed(e -> {
+			lastTime = seconds;
+			if(getNumColors() == getChrNum()) {
+				if(CheckColors(multi)){
+					time.stop();
+					setGameOver();
+					seconds = starttime;
+					window.close();
+				}
+				else{
+					text.setText(" YOU HAVEN'T COLORD EVERY VERTICE");
+					text.setFill(Color.RED);
+				}
+			}
+			else{
+				text.setText("YOU HAVEN'T REACHED THE MINIMUM AMOUNT OF COLORS, TRY AGAIN");
+				text.setFill(Color.RED);
+			}
+		});
+
+
+		end.setStyle("-fx-background-color: #e6e6e6");
+		end.setOnMouseEntered(e -> end.setStyle("-fx-background-color: #2EE59D;"));
+		end.setOnMouseExited(e -> end.setStyle("-fx-background-color: #e6e6e6"));
+
+		//Close window
+		window.setOnCloseRequest(e -> {
+			seconds = starttime;
+			time.stop();
+		});
+
+		pane.add(end, 8,0,1,1);
 		pane.add(text,5,1,1,1);
 
 		scene1 = new Scene(vbox, 900, 800);
