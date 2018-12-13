@@ -1,56 +1,49 @@
 package sample;
 
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.geometry.*;
+import javafx.scene.layout.VBox;
 
 
 public class Hint {
-    public static void display (String title, String message){
+    public static void display (String title, String message, int colorsUsed, int chromaticnumber){
 
         Stage window = new Stage();
 
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Hints");
+        window.setTitle("hints");
         window.setMinWidth(100);
         window.setMinHeight(50);
 
-        GridPane layout = new GridPane();
-        Label label = new Label();
-        label.setText("Too complicated?\n" +
-                "Try the ORDER button for a simpler view of the graph!\n" +
-                "If that doesn't help, choose one of the options below:\n" +
-                " ");
-        layout.getChildren().add(label);
-        layout.setConstraints(label, 0 ,0);
+        VBox layout = new VBox();
 
-        Button easy = new Button("How am I doing so far?");
-        layout.getChildren().add(easy);
+        Label direct = new Label("Double click a vertice");
+        direct.setStyle("-fx-border-style: solid; -fx-border-width: 2.5px;");
+
+        Button easy = new Button("I need a bit of help");
         layout.setAlignment(Pos.CENTER);
-        layout.setConstraints(easy, 0 ,2);
-        easy.setOnAction(e -> UsedColors ());
+        easy.setOnAction(e -> UsedColors (colorsUsed,chromaticnumber));
 
-        Button hard = new Button("Need an advice!");
-        layout.getChildren().add(hard);
-        layout.setConstraints(hard, 1, 2);
+        Button hard = new Button("I am lost");
         hard.setOnAction( e -> startingPoint ());
 
-        Scene scene = new Scene(layout, 500, 200);
+        layout.getChildren().addAll(direct,easy,hard);
+        Scene scene = new Scene(layout, 150, 100);
         window.setScene(scene);
         window.showAndWait();
 
-        }
-        private static void UsedColors() {
-            ShowUsedColors.display();
-        }
+    }
+    private static void UsedColors(int colorsUsed, int chromaticnumber) {
+        ShowUsedColors.display(colorsUsed, chromaticnumber );
+    }
 
-        private static void startingPoint() {
-            HowToStart.display("StartingPoint");
-            }
-
-
+    private static void startingPoint() {
+        HowToStart.display("StartingPoint");
+    }
 
 }

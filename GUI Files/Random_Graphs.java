@@ -207,7 +207,7 @@ public class Random_Graphs {
         //Adding HELP button
         Button buttonhint = new Button("HELP");
         pane.add(buttonhint, 5,0,1,1);
-        buttonhint.setOnAction(e -> Hint.display("Hint", "Need help?"));
+        buttonhint.setOnAction(e -> Hint_Random.display("Hint", "Need help?"));
         buttonhint.setPrefWidth(80);
         buttonhint.setPrefHeight(40);
         buttonhint.setStyle("-fx-background-color: #e6e6e6");

@@ -22,11 +22,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Fixed_Graph2 {
+public class Fixed_Graph15 {
+
 	static Scene scene1;
 	static Stage window;
 	static Stage gameOverWindow;
@@ -42,7 +44,7 @@ public class Fixed_Graph2 {
 	static ArrayList<String> colorList;
 	static Set<String> allColors;
 	static int colorListLength;
-	private final static int chrNum = 4;
+	private final static int chrNum = 3;
 	static ArrayList<Circle> list;
 	static Text text2;
 	static Button end;
@@ -61,8 +63,6 @@ public class Fixed_Graph2 {
 		timeUsed = new Label("It took you: " +  lastTime + " seconds");
 		GridPane.setConstraints(timeUsed,2,2);
 
-
-
 		grid.getChildren().addAll(timeUsed);
 		Scene gameOverScene = new Scene(grid, 250, 150);
 		gameOverWindow.setScene(gameOverScene);
@@ -70,16 +70,16 @@ public class Fixed_Graph2 {
 	}
 
 	private static void doTime() {
-		time= new Timeline();
-		KeyFrame frame= new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>(){
+		time = new Timeline();
+		KeyFrame frame = new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 
 				//@Asem change this to ++ and modify the instance variable to start at zero for your part.  Also change the if condition.
 				seconds++;
-				layout.setText("T: "+seconds.toString());
-				if(seconds<=0){
+				layout.setText("T: " + seconds.toString());
+				if (seconds <= 0) {
 					seconds = starttime;
 					time.stop();
 					window.close();
@@ -90,7 +90,7 @@ public class Fixed_Graph2 {
 
 		time.setCycleCount(Timeline.INDEFINITE);
 		time.getKeyFrames().add(frame);
-		if(time!= null){
+		if (time != null) {
 			time.stop();
 		}
 		time.play();
@@ -176,84 +176,67 @@ public class Fixed_Graph2 {
 		return true;
 	}
 
-
 	public static void display(String title, String message){
 		window = new Stage();
 		window.setTitle(title);
 		window.setMinWidth(250);
 
-		Pane pane_graph = new Pane();
-		pane_graph.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-		pane_graph.setStyle(
+		Pane gr1 = new Pane();
+		gr1.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		gr1.setStyle(
 				"-fx-background-position: center center;"+
 						"-fx-effect: dropshadow(three-pass-box, grey, 30, 0.2, 0, 0);");
 
 		GridPane pane = new GridPane();
-		VBox vbox = new VBox(pane_graph, pane);
+		VBox vbox = new VBox(gr1, pane);
 
 		//Adding HINTS button
-		Button buttonhint = new Button("HELP");
+		Button buttonhint = new Button("HINTS");
 		pane.add(buttonhint, 5,0,1,1);
 		buttonhint.setOnAction(e ->  Hint.display("Hint", "Need help?", getNumColors(), getChrNum()));
-		buttonhint.setPrefWidth(80);
-		buttonhint.setPrefHeight(40);
-		buttonhint.setStyle("-fx-background-color: #e6e6e6");
-		buttonhint.setOnMouseEntered(e -> buttonhint.setStyle("-fx-background-color: #2EE59D;"));
-		buttonhint.setOnMouseExited(e -> buttonhint.setStyle("-fx-background-color: #e6e6e6"));
 
-
-
-
-		multi = new int[][]{
-				{ 0, 1, 1, 1, 0, 0 },
-				{ 0, 1, 1, 1, 0, 0 },
-				{ 1, 1, 0, 0, 1, 1 },
-				{ 1, 1, 0, 0, 1, 1 },
-				{ 0, 1, 1, 1, 0, 1 },
-				{ 0, 1, 1, 1, 1, 0 },
+		int[][] multi = new int[][]{
+				{0, 1, 0, 1, 1, 0},
+				{1, 0, 1, 1, 0, 0},
+				{0, 1, 0, 1, 0, 0},
+				{1, 1, 1, 0, 1, 1},
+				{1, 0, 0, 1, 0, 0},
+				{0, 0, 0, 1, 0, 0},
 		};
 
-		Circle Circle1 = createCircle(400, 100, 15, Color.TRANSPARENT);
-		Circle Circle2 = createCircle(400, 250, 15, Color.TRANSPARENT);
-		Circle Circle3 = createCircle(200, 250, 15, Color.TRANSPARENT);
-		Circle Circle4 = createCircle(600, 250, 15, Color.TRANSPARENT);
-		Circle Circle5 = createCircle(300, 400, 15, Color.TRANSPARENT);
-		Circle Circle6 = createCircle(500, 400, 15, Color.TRANSPARENT);
+		Circle Circle1 = createCircle(480, 101, 15, Color.WHITE);
+		Circle Circle2 = createCircle(291, 101, 15, Color.WHITE);
+		Circle Circle3 = createCircle(149, 189, 15, Color.WHITE);
+		Circle Circle4 = createCircle(385, 370, 15, Color.WHITE);
+		Circle Circle5 = createCircle(622, 189, 15, Color.WHITE);
+		Circle Circle6 = createCircle(385, 503, 15, Color.WHITE);
 
-		Line line1 = connect(Circle1, Circle3);
-		Line line2 = connect(Circle3, Circle5);
-		Line line3 = connect(Circle5, Circle6);
-		Line line4 = connect(Circle6, Circle4);
-		Line line5 = connect(Circle4, Circle1);
-		Line line6 = connect(Circle1, Circle2);
-		Line line7 = connect(Circle2, Circle3);
-		Line line8 = connect(Circle2, Circle4);
-		Line line9 = connect(Circle5, Circle2);
-		Line line10 = connect(Circle6, Circle2);
-		Line line11 = connect(Circle3, Circle6);
-		Line line12 = connect(Circle4, Circle5);
+		Line line1 = connect(Circle1, Circle2);
+		Line line2 = connect(Circle2, Circle3);
+		Line line3 = connect(Circle3, Circle4);
+		Line line4 = connect(Circle4, Circle5);
+		Line line5 = connect(Circle5, Circle1);
+		Line line6 = connect(Circle2, Circle4);
+		Line line7 = connect(Circle4, Circle1);
+		Line line8 = connect(Circle4, Circle6);
 
 		//add the circles
-		pane_graph.getChildren().add(Circle1);
-		pane_graph.getChildren().add(Circle2);
-		pane_graph.getChildren().add(Circle3);
-		pane_graph.getChildren().add(Circle4);
-		pane_graph.getChildren().add(Circle5);
-		pane_graph.getChildren().add(Circle6);
+		gr1.getChildren().add(Circle1);
+		gr1.getChildren().add(Circle2);
+		gr1.getChildren().add(Circle3);
+		gr1.getChildren().add(Circle4);
+		gr1.getChildren().add(Circle5);
+		gr1.getChildren().add(Circle6);
 
 		// add the lines
-		pane_graph.getChildren().add(line1);
-		pane_graph.getChildren().add(line2);
-		pane_graph.getChildren().add(line3);
-		pane_graph.getChildren().add(line4);
-		pane_graph.getChildren().add(line5);
-		pane_graph.getChildren().add(line6);
-		pane_graph.getChildren().add(line7);
-		pane_graph.getChildren().add(line8);
-		pane_graph.getChildren().add(line9);
-		pane_graph.getChildren().add(line10);
-		pane_graph.getChildren().add(line11);
-		pane_graph.getChildren().add(line12);
+		gr1.getChildren().add(line1);
+		gr1.getChildren().add(line2);
+		gr1.getChildren().add(line3);
+		gr1.getChildren().add(line4);
+		gr1.getChildren().add(line5);
+		gr1.getChildren().add(line6);
+		gr1.getChildren().add(line7);
+		gr1.getChildren().add(line8);
 
 		// bring the circles to the front of the lines
 		Circle1.toFront();
@@ -262,12 +245,11 @@ public class Fixed_Graph2 {
 		Circle4.toFront();
 		Circle5.toFront();
 		Circle6.toFront();
-
 		//for the timer
 		layout = new Label();
 		layout.setText("T: 0");
 		doTime();
-		pane_graph.getChildren().addAll(layout);
+		gr1.getChildren().addAll(layout);
 
 		num_of_colors = new Paint[6]; //An array to hold the used colors.
 		//adding all circles to an array, to calculate the colors used by the user
