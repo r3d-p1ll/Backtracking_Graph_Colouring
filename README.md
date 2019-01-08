@@ -1,29 +1,12 @@
-# Graph Colouring 2018
+# Graph Colouring Game
 
-## Project Goal
+Graph Colouring game, which uses a backtracking algorithm in order to determine the chromatic number of an undirected graph. GUI was build using JavaFX. A Hint system is implemented as well for user's convenience.
 
-Compute the chromatic number of an undirected graph.
+The game has 3 modes:
 
-## How to Submit Your Code
-
-1. Watch [this video](https://youtu.be/-52quDR2QSc) 
-2. Clone and change this repository
-3. Commit changes and push to master branch
-
-You can use this repository during development. We will only evaluate the final commit.
-
-## Style and Structure
-
-You might find [this styleguide](https://google.github.io/styleguide/javaguide.html) useful. 
-
-We have already prepared a folder structure for you in this repository:
-
-* src
-* test
-* man
-
-You may use your own structure if you have good reasons for it.
-
-## Deadline
-
-**December 13th, 2018 at 8pm (CET)**
+## 1. Random
+Generates a random graph. The amount of vertices and edges are specified by the user. The user could also load from a file. The edges should be colored in a particular sequence. Once a vertice's been colored, the color can't be changed. Adjacent vertices can't have the same color. A circular layout algorithm is implemented here in order to re-order the randomly generated graph, if needed.
+## 2. Best Upper Bound
+Color a graph with as little colors as possible for a certain amount of time. Adjacent vertices can't have the same color.
+## 3. Until the bitter end
+You can only finish this game mode if you find the chromatic number of the graph (meaning that you've used the minimum amount of colors possible to color the graph). Adjacent vertices can't have the same color.
