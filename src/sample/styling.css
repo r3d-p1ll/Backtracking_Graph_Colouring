@@ -1,0 +1,66 @@
+.root {
+}
+#layout1 {
+	-fx-background-image: url('https://ae01.alicdn.com/kf/HTB11jNebVmWBuNjSspdq6zugXXa2/Home-decoration-art-oriental-girl-flowers-fan-Silk-Fabric-Poster-Print-DM172.jpg_640x640.jpg');
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: cover;
+}
+.button {
+	-fx-width: 140px;
+  	-fx-height: 45px;
+  	-fx-font-family: 'Roboto', sans-serif;
+  	-fx-font-size: 14px;
+  	-fx-text-fill: #000000;
+  	-fx-text-transform: uppercase;
+  	-fx-letter-spacing: 2.5px;
+  	-fx-font-weight: 500;
+  	-fx-color: #000;
+  	-fx-background-color: #fff;
+  	-fx-border: none;
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 8, 8);;
+  	-fx-transition: all 0.3s ease 0s;
+  	-fx-cursor: pointer;
+}
+.button:hover {
+	-fx-background-color: #2EE59D;
+	-fx-font-style: italic;
+	-fx-padding: 10;
+  	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 8, 8);
+  	-fx-color: #fff;
+  	-fx-text-fill: white;
+  	-fx-margin-top: -7px;
+  	-fx-margin-left:-4px;
+}
+
+.text {
+	-fx-text-color: #FFFC19;
+}
+
+.imageView {
+	-fx-width: 50px;
+	-fx-height: 40px;
+}
+/*.tooltip {
+	-fx-font-size: 13px;
+	-fx-
+}*/
+
+/*
+not working.
+*/
+#fancyQuitLabel {
+	-fx-font-weight: bold;
+	-fx-font-size:18px;
+}
+
+#fancyQuit {
+	-fx-background-color: grey;
+    -fx-text-align: center;
+    -fx-font-size: 14;
+    /*-fx-width: 5;*/
+}
+#fancyQuit:hover {
+	-fx-background-color: green;
+    -fx-font-style: italic;
+}
