@@ -1,2 +1,2 @@
 # Backtracking_Graph_Colouring
-Using a backtracking algorithm for graph colouring.
+Graph Coloring game, using backtracking algorithm. GUI built with JavaFX.
