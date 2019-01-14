@@ -1,9 +1,0 @@
-Use the TestGcLocalSearch and TestGcHybrid which contain main.  Both are different versions of the Genetic Algorithm with 
-Hybrid being more complex
-
-To get the chromatic number would want a cost to be zero but one below would incur cost.  If you enter a number projected chromatic 
-number the output would show how many edges were removed to make your number work.  The algorithm would run for roughly 1 minute and 50 seconds 
-until it would stop evolving to able to include all edges.  So just like the backtracking algo, there is a dilemma that it may find a chromatic
-number lower but it depends on time and computer power.  
-
-In essence, the chromatic number has a cost of 0 and any number below that incur cost penalties.   
